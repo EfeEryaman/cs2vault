@@ -473,6 +473,13 @@ let payItem = null;
 let currentMarketCat = 'Tümü';
 let currentInvCat = 'Tümü';
 
+
+function updateBalance() {
+  updateBalance();
+  const sb = document.getElementById('stat-balance');
+  if(sb) sb.textContent = fmtMoney(userBalance);
+}
+
 function fmtMoney(n) {
   if(!n && n!==0) return '$0.00';
   return '$' + parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -689,11 +696,10 @@ function appendMarketCard(s) {
   div.id = 'card-' + s.id;
   div.style.cursor = 'pointer';
   div.innerHTML = getCardHTML(s);
-  const skinIdx = marketSkins.indexOf(s);
+  div.setAttribute('data-skin-idx', marketSkins.indexOf(s));
   div.addEventListener('click', function(e) {
     if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-input')) return;
-    const idx = marketSkins.indexOf(s);
-    if(idx !== -1) openDetailModal(idx);
+    openDetailModal(marketSkins.indexOf(s));
   });
   grid.appendChild(div);
 }
@@ -741,7 +747,7 @@ function placeBid(id) {
   if(!val||val<=skin.currentBid){showToast('Mevcut tekliften yüksek olmalı!','error');return;}
   if(val>userBalance){showToast('Yetersiz bakiye!','error');return;}
   userBalance -= val;
-  document.getElementById('balance-display').textContent = fmtMoney(userBalance);
+  updateBalance();
   skin.currentBid=val; skin.topBidder='Sen'; inp.value='';
   if(!skin.bidHistory) skin.bidHistory=[];
   skin.bidHistory.push({user:'Sen',amount:val,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
@@ -1081,8 +1087,7 @@ function placeDetailBid() {
 
   // Deduct from balance immediately
   userBalance -= val;
-  document.getElementById('balance-display').textContent = fmtMoney(userBalance);
-  document.getElementById('stat-balance') && (document.getElementById('stat-balance').textContent = fmtMoney(userBalance));
+  updateBalance();
 
   // Update skin
   detailSkin.currentBid = val;
