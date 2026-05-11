@@ -261,6 +261,48 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </div>
 </div>
 
+
+<!-- SKIN DETAIL MODAL -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal" style="max-width:500px;width:90vw;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+      <h3 id="dm-name" style="font-size:18px;letter-spacing:0.5px;"></h3>
+      <button onclick="closeDetailModal()" style="background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <div style="background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);border-radius:12px;padding:1.5rem;display:flex;align-items:center;justify-content:center;height:180px;margin-bottom:1.25rem;border:1px solid var(--border);">
+      <img id="dm-img" src="" alt="" style="max-height:150px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.6));">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Kategori</div>
+        <div style="font-size:14px;font-weight:600;" id="dm-cat"></div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Aşınma</div>
+        <div style="font-size:14px;font-weight:600;" id="dm-wear"></div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Piyasa Fiyatı</div>
+        <div style="font-size:18px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif;" id="dm-price"></div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Güncel Teklif</div>
+        <div style="font-size:18px;font-weight:700;color:var(--green);font-family:'Rajdhani',sans-serif;" id="dm-bid"></div>
+      </div>
+    </div>
+    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:1.25rem;">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">En Yüksek Teklifçi</div>
+      <div style="font-size:14px;color:var(--blue);" id="dm-bidder"></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="flex:1;">
+        <input class="bid-input" id="dm-bid-inp" type="number" step="0.01" placeholder="Teklif girin..." style="width:100%;height:44px;">
+      </div>
+      <button class="bid-btn" id="dm-bid-btn" style="height:44px;padding:0 20px;font-size:13px;" onclick="placeDetailBid()">TEKLİF VER</button>
+    </div>
+  </div>
+</div>
+
 <!-- LIST MODAL -->
 <div class="modal-overlay" id="list-modal">
   <div class="modal">
@@ -312,7 +354,7 @@ const STEAM_API_KEY = 'F63CD7ADEB27F331C560DAA191244CC0';
 const API = window.location.origin;
 
 // Popular CS2 market items by category
-const MARKET_ITEMS = {
+const ALL_MARKET_ITEMS = {
   'Bıçaklar': [
     'Karambit | Doppler (Factory New)',
     'Butterfly Knife | Fade (Factory New)',
@@ -321,15 +363,27 @@ const MARKET_ITEMS = {
     'Butterfly Knife | Doppler (Factory New)',
     'Stiletto Knife | Marble Fade (Factory New)',
     'Talon Knife | Doppler (Factory New)',
-    'Ursus Knife | Fade (Factory New)'
+    'Ursus Knife | Fade (Factory New)',
+    'Karambit | Fade (Factory New)',
+    'M9 Bayonet | Doppler (Factory New)',
+    'Butterfly Knife | Tiger Tooth (Factory New)',
+    'Flip Knife | Fade (Factory New)',
+    'Bayonet | Doppler (Factory New)',
+    'Huntsman Knife | Doppler (Factory New)',
+    'Gut Knife | Marble Fade (Factory New)',
+    'Shadow Daggers | Doppler (Factory New)'
   ],
   'Eldivenler': [
-    'Sport Gloves | Pandora\'s Box (Field-Tested)',
+    "Sport Gloves | Pandora's Box (Field-Tested)",
     'Specialist Gloves | Crimson Kimono (Well-Worn)',
     'Hand Wraps | Cobalt Skulls (Field-Tested)',
     'Moto Gloves | Spearmint (Field-Tested)',
     'Driver Gloves | King Snake (Field-Tested)',
-    'Bloodhound Gloves | Charred (Field-Tested)'
+    'Bloodhound Gloves | Charred (Field-Tested)',
+    'Sport Gloves | Vice (Field-Tested)',
+    'Moto Gloves | POW! (Field-Tested)',
+    'Specialist Gloves | Fade (Minimal Wear)',
+    'Hand Wraps | Overprint (Field-Tested)'
   ],
   'Tüfekler': [
     'AK-47 | Case Hardened (Field-Tested)',
@@ -341,7 +395,15 @@ const MARKET_ITEMS = {
     'M4A4 | Poseidon (Field-Tested)',
     'M4A1-S | Printstream (Minimal Wear)',
     'M4A1-S | Vaporwave (Factory New)',
-    'AK-47 | Panthera onca (Minimal Wear)'
+    'AK-47 | Panthera onca (Minimal Wear)',
+    'AK-47 | Asiimov (Field-Tested)',
+    'AWP | Asiimov (Field-Tested)',
+    'AK-47 | Vulcan (Factory New)',
+    'AWP | Lightning Strike (Factory New)',
+    'M4A1-S | Knight (Factory New)',
+    'AK-47 | Fire Serpent (Field-Tested)',
+    'AWP | Medusa (Field-Tested)',
+    'M4A4 | Howl (Field-Tested)'
   ],
   'Tabancalar': [
     'USP-S | Kill Confirmed (Field-Tested)',
@@ -349,9 +411,24 @@ const MARKET_ITEMS = {
     'Desert Eagle | Blaze (Factory New)',
     'Desert Eagle | Printstream (Minimal Wear)',
     'Glock-18 | Fade (Factory New)',
-    'P250 | See Ya Later (Factory New)'
+    'P250 | See Ya Later (Factory New)',
+    'Desert Eagle | Golden Koi (Factory New)',
+    'USP-S | Neo-Noir (Factory New)',
+    'Glock-18 | Gamma Doppler (Factory New)',
+    'Desert Eagle | Hand Cannon (Factory New)'
   ]
 };
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function getRandomItems() {
+  const result = {};
+  for(const [cat, items] of Object.entries(ALL_MARKET_ITEMS)) {
+    const n = Math.max(4, Math.floor(items.length * 0.6));
+    result[cat] = shuffle(items).slice(0, n);
+  }
+  return result;
+}
+const MARKET_ITEMS = getRandomItems();
 
 let steamProfile = null;
 let inventorySkins = [];
@@ -560,7 +637,7 @@ function renderMarketGrid(cat) {
         ${!ended?`
         <div class="bid-row">
           <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
-          <button class="bid-btn" onclick="placeBid('${s.id}')">TEKLİF</button>
+          <button class="bid-btn" onclick="event.stopPropagation();placeBid('${s.id}')">TEKLİF</button>
         </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
       </div>
     </div>`;
@@ -604,7 +681,7 @@ function getCardHTML(s) {
       ${!ended?`
       <div class="bid-row">
         <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
-        <button class="bid-btn" onclick="placeBid('${s.id}')">TEKLİF</button>
+        <button class="bid-btn" onclick="event.stopPropagation();placeBid('${s.id}')">TEKLİF</button>
       </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
     </div>`;
 }
@@ -853,6 +930,51 @@ setInterval(()=>{
     }
   });
 },1000);
+
+let detailSkin = null;
+
+function openDetailModal(id) {
+  const skin = marketSkins.find(s=>String(s.id)===String(id)) || 
+               myAuctions.find(s=>String(s.id)===String(id));
+  if(!skin) return;
+  detailSkin = skin;
+  document.getElementById('dm-name').textContent = skin.name;
+  document.getElementById('dm-img').src = skin.img || '';
+  document.getElementById('dm-cat').textContent = skin.cat || '-';
+  document.getElementById('dm-wear').textContent = skin.wear || '-';
+  document.getElementById('dm-price').textContent = skin.priceRaw || (skin.market>0 ? fmtMoney(skin.market) : 'N/A');
+  document.getElementById('dm-bid').textContent = fmtMoney(skin.currentBid);
+  document.getElementById('dm-bidder').textContent = skin.topBidder || 'Henüz teklif yok';
+  document.getElementById('dm-bid-inp').placeholder = fmtMoney(skin.currentBid + 1);
+  const btn = document.getElementById('dm-bid-btn');
+  btn.disabled = skin.timeLeft <= 0;
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function closeDetailModal() {
+  document.getElementById('detail-modal').classList.remove('open');
+  detailSkin = null;
+}
+
+function placeDetailBid() {
+  if(!detailSkin) return;
+  const inp = document.getElementById('dm-bid-inp');
+  const val = parseFloat(inp.value);
+  if(!val || val <= detailSkin.currentBid) { showToast('Mevcut tekliften yüksek olmalı!','error'); return; }
+  detailSkin.currentBid = val;
+  detailSkin.topBidder = 'Sen';
+  inp.value = '';
+  totalBids++;
+  document.getElementById('s-bids').textContent = totalBids;
+  document.getElementById('dm-bid').textContent = fmtMoney(val);
+  document.getElementById('dm-bidder').textContent = 'Sen';
+  const a = document.getElementById('mamt-'+detailSkin.id);
+  const b = document.getElementById('mbidder-'+detailSkin.id);
+  if(a){a.textContent=fmtMoney(val);a.className='amount green';}
+  if(b) b.textContent='Sen';
+  showToast(detailSkin.name+' için '+fmtMoney(val)+' teklif verildi!','success');
+}
+
 </script>
 </body>
 </html>
