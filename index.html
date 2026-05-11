@@ -264,41 +264,73 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <!-- SKIN DETAIL MODAL -->
 <div class="modal-overlay" id="detail-modal">
-  <div class="modal" style="max-width:500px;width:90vw;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-      <h3 id="dm-name" style="font-size:18px;letter-spacing:0.5px;"></h3>
-      <button onclick="closeDetailModal()" style="background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;">✕</button>
+  <div class="modal" style="max-width:580px;width:95vw;max-height:90vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;">
+      <div>
+        <h3 id="dm-name" style="font-size:18px;letter-spacing:0.5px;margin-bottom:4px;"></h3>
+        <div id="dm-wear-badge" style="font-size:11px;color:var(--text3);"></div>
+      </div>
+      <button onclick="closeDetailModal()" style="background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;line-height:1;">✕</button>
     </div>
-    <div style="background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);border-radius:12px;padding:1.5rem;display:flex;align-items:center;justify-content:center;height:180px;margin-bottom:1.25rem;border:1px solid var(--border);">
-      <img id="dm-img" src="" alt="" style="max-height:150px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.6));">
+
+    <!-- Big Image -->
+    <div style="background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);border-radius:14px;padding:2rem;display:flex;align-items:center;justify-content:center;height:200px;margin-bottom:1.25rem;border:1px solid var(--border);position:relative;">
+      <img id="dm-img" src="" alt="" style="max-height:160px;max-width:100%;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(0,0,0,0.7));">
+      <div id="dm-rarity-bar" style="position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 14px 14px;"></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem;">
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Kategori</div>
-        <div style="font-size:14px;font-weight:600;" id="dm-cat"></div>
+
+    <!-- Stats Grid -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem;">
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Float</div>
+        <div id="dm-float" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--blue);"></div>
       </div>
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Aşınma</div>
-        <div style="font-size:14px;font-weight:600;" id="dm-wear"></div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Piyasa</div>
+        <div id="dm-market" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--accent);"></div>
       </div>
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Piyasa Fiyatı</div>
-        <div style="font-size:18px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif;" id="dm-price"></div>
-      </div>
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Güncel Teklif</div>
-        <div style="font-size:18px;font-weight:700;color:var(--green);font-family:'Rajdhani',sans-serif;" id="dm-bid"></div>
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Kalan Süre</div>
+        <div id="dm-timer" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--green);"></div>
       </div>
     </div>
-    <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:1.25rem;">
-      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">En Yüksek Teklifçi</div>
-      <div style="font-size:14px;color:var(--blue);" id="dm-bidder"></div>
-    </div>
-    <div style="display:flex;gap:8px;">
-      <div style="flex:1;">
-        <input class="bid-input" id="dm-bid-inp" type="number" step="0.01" placeholder="Teklif girin..." style="width:100%;height:44px;">
+
+    <!-- Float Bar -->
+    <div style="margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;">
+        <span>FN</span><span>MW</span><span>FT</span><span>WW</span><span>BS</span>
       </div>
-      <button class="bid-btn" id="dm-bid-btn" style="height:44px;padding:0 20px;font-size:13px;" onclick="placeDetailBid()">TEKLİF VER</button>
+      <div style="height:6px;background:linear-gradient(90deg,#26d97f,#f0a500,#ff4d4d);border-radius:3px;position:relative;">
+        <div id="dm-float-marker" style="position:absolute;top:-3px;width:12px;height:12px;background:white;border-radius:50%;transform:translateX(-50%);box-shadow:0 0 6px rgba(0,0,0,0.5);transition:left 0.3s;"></div>
+      </div>
+    </div>
+
+    <!-- Current Bid -->
+    <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Güncel En Yüksek Teklif</div>
+        <div id="dm-current-bid" style="font-size:26px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--green);"></div>
+        <div id="dm-top-bidder" style="font-size:12px;color:var(--blue);margin-top:2px;"></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Toplam Teklif</div>
+        <div id="dm-bid-count" style="font-size:22px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--text);"></div>
+      </div>
+    </div>
+
+    <!-- Bid History -->
+    <div style="margin-bottom:1.25rem;">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Teklif Geçmişi</div>
+      <div id="dm-bid-history" style="display:flex;flex-direction:column;gap:6px;max-height:150px;overflow-y:auto;"></div>
+    </div>
+
+    <!-- Place Bid -->
+    <div id="dm-bid-section">
+      <div style="display:flex;gap:8px;">
+        <input class="bid-input" id="dm-bid-inp" type="number" step="0.01" placeholder="Teklif girin..." style="flex:1;height:48px;font-size:15px;">
+        <button class="bid-btn" id="dm-bid-btn" onclick="placeDetailBid()" style="height:48px;padding:0 24px;font-size:14px;">TEKLİF VER</button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:center;">Bakiyenizden anında düşülür</div>
     </div>
   </div>
 </div>
@@ -907,6 +939,8 @@ setInterval(()=>{
       if(Math.random()<0.025&&s.topBidder!=='Sen'&&s.timeLeft>30){
         s.currentBid=parseFloat((s.currentBid+Math.random()*s.currentBid*0.03+0.5).toFixed(2));
         s.topBidder=BOTS[Math.floor(Math.random()*BOTS.length)];
+        if(!s.bidHistory) s.bidHistory=[];
+        s.bidHistory.push({user:s.topBidder,amount:s.currentBid,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
         const a=document.getElementById('mamt-'+s.id),b=document.getElementById('mbidder-'+s.id);
         if(a)a.textContent=fmtMoney(s.currentBid);
         if(b)b.textContent=s.topBidder;
@@ -932,47 +966,138 @@ setInterval(()=>{
 },1000);
 
 let detailSkin = null;
+let detailTimerInterval = null;
+
+function getFloat(wear) {
+  const ranges = {
+    'Factory New': [0.00, 0.07],
+    'Minimal Wear': [0.07, 0.15],
+    'Field-Tested': [0.15, 0.38],
+    'Well-Worn': [0.38, 0.45],
+    'Battle-Scarred': [0.45, 1.00]
+  };
+  const key = Object.keys(ranges).find(k => wear && wear.includes(k.split(' ')[0])) || 'Field-Tested';
+  const [min, max] = ranges[key] || [0.15, 0.38];
+  return (Math.random() * (max - min) + min).toFixed(8);
+}
 
 function openDetailModal(id) {
-  const skin = marketSkins.find(s=>String(s.id)===String(id)) || 
+  const skin = marketSkins.find(s=>String(s.id)===String(id)) ||
                myAuctions.find(s=>String(s.id)===String(id));
   if(!skin) return;
   detailSkin = skin;
+
   document.getElementById('dm-name').textContent = skin.name;
   document.getElementById('dm-img').src = skin.img || '';
-  document.getElementById('dm-cat').textContent = skin.cat || '-';
-  document.getElementById('dm-wear').textContent = skin.wear || '-';
-  document.getElementById('dm-price').textContent = skin.priceRaw || (skin.market>0 ? fmtMoney(skin.market) : 'N/A');
-  document.getElementById('dm-bid').textContent = fmtMoney(skin.currentBid);
-  document.getElementById('dm-bidder').textContent = skin.topBidder || 'Henüz teklif yok';
+  document.getElementById('dm-wear-badge').textContent = (skin.rarityName||skin.cat||'') + (skin.wear ? ' · ' + skin.wear : '');
+  document.getElementById('dm-rarity-bar').style.background = skin.rarity || '#aaa';
+  document.getElementById('dm-market').textContent = skin.priceRaw || (skin.market>0 ? fmtMoney(skin.market) : 'N/A');
+  document.getElementById('dm-current-bid').textContent = fmtMoney(skin.currentBid);
+  document.getElementById('dm-top-bidder').textContent = skin.topBidder ? '👑 ' + skin.topBidder : 'Henüz teklif yok';
+  document.getElementById('dm-bid-count').textContent = (skin.bidHistory||[]).length;
+
+  // Float
+  if(!skin._float) skin._float = getFloat(skin.wear);
+  const floatVal = skin._float;
+  document.getElementById('dm-float').textContent = floatVal;
+  document.getElementById('dm-float-marker').style.left = (parseFloat(floatVal) * 100) + '%';
+
+  // Timer
+  document.getElementById('dm-timer').textContent = fmtTime(skin.timeLeft);
+
+  // Bid history
+  renderBidHistory(skin);
+
+  // Bid section
+  const ended = skin.timeLeft <= 0;
+  document.getElementById('dm-bid-section').style.opacity = ended ? '0.4' : '1';
+  document.getElementById('dm-bid-btn').disabled = ended;
   document.getElementById('dm-bid-inp').placeholder = fmtMoney(skin.currentBid + 1);
-  const btn = document.getElementById('dm-bid-btn');
-  btn.disabled = skin.timeLeft <= 0;
+
   document.getElementById('detail-modal').classList.add('open');
+
+  // Live timer in modal
+  clearInterval(detailTimerInterval);
+  detailTimerInterval = setInterval(() => {
+    if(detailSkin) {
+      document.getElementById('dm-timer').textContent = fmtTime(detailSkin.timeLeft);
+      document.getElementById('dm-current-bid').textContent = fmtMoney(detailSkin.currentBid);
+      document.getElementById('dm-top-bidder').textContent = detailSkin.topBidder ? '👑 ' + detailSkin.topBidder : 'Henüz teklif yok';
+    }
+  }, 1000);
+}
+
+function renderBidHistory(skin) {
+  const el = document.getElementById('dm-bid-history');
+  const history = skin.bidHistory || [];
+  if(history.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px;">Henüz teklif yok</div>';
+    return;
+  }
+  el.innerHTML = [...history].reverse().map(b => `
+    <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border-radius:8px;padding:8px 12px;border:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:${b.user==='Sen'?'var(--green)':'var(--blue)'};"></div>
+        <span style="font-size:12px;color:${b.user==='Sen'?'var(--green)':'var(--blue)'};">${b.user}</span>
+      </div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--text);">${fmtMoney(b.amount)}</div>
+      <div style="font-size:10px;color:var(--text3);">${b.time}</div>
+    </div>
+  `).join('');
 }
 
 function closeDetailModal() {
   document.getElementById('detail-modal').classList.remove('open');
+  clearInterval(detailTimerInterval);
   detailSkin = null;
 }
 
 function placeDetailBid() {
-  if(!detailSkin) return;
+  if(!detailSkin || detailSkin.timeLeft <= 0) return;
   const inp = document.getElementById('dm-bid-inp');
   const val = parseFloat(inp.value);
-  if(!val || val <= detailSkin.currentBid) { showToast('Mevcut tekliften yüksek olmalı!','error'); return; }
+  if(!val || val <= detailSkin.currentBid) {
+    showToast('Mevcut tekliften yüksek olmalı!', 'error');
+    return;
+  }
+  if(val > userBalance) {
+    showToast('Yetersiz bakiye!', 'error');
+    return;
+  }
+
+  // Deduct from balance immediately
+  userBalance -= val;
+  document.getElementById('balance-display').textContent = fmtMoney(userBalance);
+  document.getElementById('stat-balance') && (document.getElementById('stat-balance').textContent = fmtMoney(userBalance));
+
+  // Update skin
   detailSkin.currentBid = val;
   detailSkin.topBidder = 'Sen';
+  if(!detailSkin.bidHistory) detailSkin.bidHistory = [];
+  detailSkin.bidHistory.push({
+    user: 'Sen',
+    amount: val,
+    time: new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'})
+  });
+
   inp.value = '';
   totalBids++;
   document.getElementById('s-bids').textContent = totalBids;
-  document.getElementById('dm-bid').textContent = fmtMoney(val);
-  document.getElementById('dm-bidder').textContent = 'Sen';
+
+  // Update modal
+  document.getElementById('dm-current-bid').textContent = fmtMoney(val);
+  document.getElementById('dm-top-bidder').textContent = '👑 Sen';
+  document.getElementById('dm-bid-count').textContent = detailSkin.bidHistory.length;
+  renderBidHistory(detailSkin);
+  document.getElementById('dm-bid-inp').placeholder = fmtMoney(val + 1);
+
+  // Update market grid card
   const a = document.getElementById('mamt-'+detailSkin.id);
   const b = document.getElementById('mbidder-'+detailSkin.id);
   if(a){a.textContent=fmtMoney(val);a.className='amount green';}
   if(b) b.textContent='Sen';
-  showToast(detailSkin.name+' için '+fmtMoney(val)+' teklif verildi!','success');
+
+  showToast(detailSkin.name+' için '+fmtMoney(val)+' teklif verildi! Bakiyenizden düşüldü.','success');
 }
 
 </script>
