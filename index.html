@@ -465,10 +465,11 @@ const MARKET_ITEMS = getRandomItems();
 let steamProfile = null;
 let inventorySkins = [];
 let myAuctions = [];
+let userBalance = 1000;
+let totalBids = 0;
 let marketSkins = [];
 let listingItem = null;
 let payItem = null;
-let totalBids = 0;
 let currentMarketCat = 'Tümü';
 let currentInvCat = 'Tümü';
 
@@ -688,9 +689,10 @@ function appendMarketCard(s) {
   div.id = 'card-' + s.id;
   div.style.cursor = 'pointer';
   div.innerHTML = getCardHTML(s);
+  const skinId = String(s.id);
   div.addEventListener('click', function(e) {
     if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-input')) return;
-    openDetailModal(s.id);
+    openDetailModal(skinId);
   });
   grid.appendChild(div);
 }
