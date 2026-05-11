@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 3000;
 const STEAM_API_KEY = process.env.STEAM_API_KEY || 'F63CD7ADEB27F331C560DAA191244CC0';
 
 app.use(cors());
-app.use(express.static('public'));
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Steam profile
 app.get('/api/profile/:steamid', async (req, res) => {
