@@ -465,13 +465,13 @@ async function loadMarketSkins() {
   for(const item of allItems) {
     try {
       // Fetch price + image hash from market in one call
-      const [priceResp, listingResp] = await Promise.all([
+      const [priceResp, itemResp] = await Promise.all([
         fetch(`${API}/api/price?name=${encodeURIComponent(item.name)}`).catch(()=>null),
-        fetch(`${API}/api/listing?name=${encodeURIComponent(item.name)}`).catch(()=>null)
+        fetch(`${API}/api/iteminfo?name=${encodeURIComponent(item.name)}`).catch(()=>null)
       ]);
       const data = priceResp ? await priceResp.json().catch(()=>({})) : {};
-      const listing = listingResp ? await listingResp.json().catch(()=>({})) : {};
-      const imgUrl = listing.img || '';
+      const itemInfo = itemResp ? await itemResp.json().catch(()=>({})) : {};
+      const imgUrl = itemInfo.img || '';
       
       const skinData = {
         id: Date.now() + Math.random(),
