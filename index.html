@@ -684,9 +684,14 @@ function appendMarketCard(s) {
   // Only show if matches current cat
   if(currentMarketCat !== 'Tümü' && s.cat !== currentMarketCat) return;
   const div = document.createElement('div');
-  div.className = 'skin-card';
+  div.className = 'skin-card' + (s.topBidder==='Sen' ? ' my-bid' : '');
   div.id = 'card-' + s.id;
+  div.style.cursor = 'pointer';
   div.innerHTML = getCardHTML(s);
+  div.addEventListener('click', function(e) {
+    if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-input')) return;
+    openDetailModal(s.id);
+  });
   grid.appendChild(div);
 }
 
