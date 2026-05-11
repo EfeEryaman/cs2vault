@@ -212,7 +212,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <button class="nav-btn" onclick="navigate('inventory',this)">Envanter</button>
   </div>
   <div class="nav-right">
-    <div class="balance-chip">$1,000.00</div>
+    <div class="balance-chip" id="balance-display">$1,000.00</div>
     <div class="user-chip">
       <img class="user-avatar" id="nav-avatar" src="" alt="">
       <span class="user-name" id="nav-name">...</span>
@@ -263,7 +263,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 
 <!-- SKIN DETAIL MODAL -->
-<div class="modal-overlay" id="detail-modal">
+<div class="modal-overlay" id="detail-modal" onclick="if(event.target===this)closeDetailModal()">
   <div class="modal" style="max-width:580px;width:95vw;max-height:90vh;overflow-y:auto;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;">
       <div>
@@ -1054,7 +1054,7 @@ function renderBidHistory(skin) {
 function closeDetailModal() {
   document.getElementById('detail-modal').classList.remove('open');
   clearInterval(detailTimerInterval);
-  detailSkin = null;
+  setTimeout(() => { detailSkin = null; }, 300);
 }
 
 function placeDetailBid() {
