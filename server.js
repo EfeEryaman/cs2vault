@@ -23,8 +23,7 @@ app.get('/api/profile/:steamid', async (req, res) => {
       steamid: player.steamid,
       name: player.personaname,
       avatar: player.avatarfull,
-      status: player.personastate === 1 ? 'online' : 'offline',
-      profileurl: player.profileurl
+      status: player.personastate === 1 ? 'online' : 'offline'
     });
   } catch(e) {
     res.status(500).json({ error: e.message });
@@ -36,7 +35,7 @@ app.get('/api/inventory/:steamid', async (req, res) => {
   try {
     const url = `https://steamcommunity.com/inventory/${req.params.steamid}/730/2?l=turkish&count=75`;
     const r = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36' }
     });
     const data = await r.json();
     res.json(data);
@@ -51,7 +50,7 @@ app.get('/api/price', async (req, res) => {
     const name = req.query.name;
     const url = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(name)}`;
     const r = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36' }
     });
     const data = await r.json();
     res.json(data);
@@ -60,20 +59,30 @@ app.get('/api/price', async (req, res) => {
   }
 });
 
-// Steam market listing (for image hash)
-app.get('/api/listing', async (req, res) => {
+// Get skin image via Steam Asset Class Info API
+app.get('/api/iteminfo', async (req, res) => {
   try {
     const name = req.query.name;
-    const url = `https://steamcommunity.com/market/listings/730/${encodeURIComponent(name)}`;
-    const r = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+    // Search market to get classid
+    const searchUrl = `https://steamcommunity.com/market/search/render/?appid=730&norender=1&count=1&query=${encodeURIComponent(name)}`;
+    const r = await fetch(searchUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36' }
     });
-    const html = await r.text();
-    const match = html.match(/economy\/image\/([^\/'"]+)\/[0-9]+fx[0-9]+f/);
-    if (match) {
-      res.json({ hash: match[1], img: `https://community.fastly.steamstatic.com/economy/image/${match[1]}/360fx360f` });
+    const data = await r.json();
+    
+    if (data.results && data.results.length > 0) {
+      const item = data.results[0];
+      const iconUrl = item.asset_description?.icon_url;
+      const price = item.sell_price_text;
+      const img = iconUrl ? `https://community.fastly.steamstatic.com/economy/image/${iconUrl}/360fx360f` : null;
+      res.json({ 
+        img, 
+        price,
+        name: item.name,
+        hash_name: item.hash_name
+      });
     } else {
-      res.json({ hash: null, img: null });
+      res.json({ img: null, price: null });
     }
   } catch(e) {
     res.status(500).json({ error: e.message });
