@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS2 VAULT</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#070a0f; --bg2:#0d1117; --bg3:#161c26; --bg4:#1e2736;
+  --border:#1e2a3a; --border2:#2a3a50;
+  --accent:#f0a500; --accent2:#ffbe30; --accentglow:rgba(240,165,0,0.15);
+  --blue:#4fc3f7; --blueglow:rgba(79,195,247,0.15);
+  --green:#26d97f; --greenglow:rgba(38,217,127,0.15);
+  --red:#ff4d4d; --redglow:rgba(255,77,77,0.15);
+  --purple:#a855f7;
+  --text:#e2e8f0; --text2:#7a8fa8; --text3:#3a4a5c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,195,247,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,195,247,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* NAVBAR */
+.navbar{position:sticky;top:0;z-index:100;background:rgba(7,10,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:4px;display:flex;align-items:center;gap:10px;}
+.logo-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent);}
+.logo .cs{color:var(--blue);text-shadow:0 0 20px rgba(79,195,247,0.5);}
+.logo .vault{color:var(--accent);text-shadow:0 0 20px rgba(240,165,0,0.5);}
+.nav-links{display:flex;gap:2px;}
+.nav-btn{background:none;border:none;color:var(--text2);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all 0.2s;position:relative;}
+.nav-btn:hover{background:var(--bg3);color:var(--text);}
+.nav-btn.active{color:var(--accent);background:var(--accentglow);}
+.nav-btn.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--accent);border-radius:2px;box-shadow:0 0 8px var(--accent);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.balance-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 16px;font-size:14px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;}
+.user-chip{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:5px 14px;display:flex;align-items:center;gap:10px;}
+.user-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;}
+.user-name{font-size:13px;font-weight:500;}
+.logout-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text3);font-size:12px;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.logout-btn:hover{border-color:var(--red);color:var(--red);background:var(--redglow);}
+
+/* LOGIN */
+.login-page{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.login-page.hidden{display:none;}
+.big-logo{font-family:'Rajdhani',sans-serif;font-size:56px;font-weight:700;letter-spacing:8px;margin-bottom:1rem;background:linear-gradient(135deg,var(--blue),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(79,195,247,0.3));}
+.login-sub{color:var(--text2);font-size:15px;letter-spacing:1px;margin-bottom:3rem;}
+.login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:2.5rem;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+.login-card h2{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;margin-bottom:0.5rem;}
+.login-card p{font-size:13px;color:var(--text2);margin-bottom:2rem;line-height:1.6;}
+.id-input{width:100%;height:46px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;font-family:'Inter',sans-serif;transition:all 0.2s;margin-bottom:10px;}
+.id-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accentglow);}
+.id-input::placeholder{color:var(--text3);}
+.login-btn{width:100%;height:48px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#0a0c10;font-size:15px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:2px;transition:all 0.2s;}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(240,165,0,0.4);}
+.login-note{font-size:11px;color:var(--text3);text-align:center;margin-top:1rem;line-height:1.6;}
+
+/* MAIN */
+.main{max-width:1280px;margin:0 auto;padding:2rem;position:relative;z-index:1;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:2rem;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;position:relative;overflow:hidden;transition:all 0.2s;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.5;}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.stat-value{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;}
+.stat-value.accent{color:var(--accent);}
+.stat-value.blue{color:var(--blue);}
+.stat-value.green{color:var(--green);}
+
+/* SECTION */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px;}
+.section-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;display:flex;align-items:center;gap:10px;}
+.section-title::before{content:'';display:block;width:3px;height:20px;background:linear-gradient(180deg,var(--blue),var(--accent));border-radius:2px;}
+.badge{font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:0.5px;}
+.badge.live{background:rgba(255,77,77,0.1);border-color:rgba(255,77,77,0.3);color:var(--red);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+
+/* CATEGORY TABS */
+.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;}
+.cat-tab{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.cat-tab:hover{border-color:var(--border2);color:var(--text);}
+.cat-tab.active{background:var(--accentglow);border-color:var(--accent);color:var(--accent);}
+
+/* GRID */
+.skin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+
+/* SKIN CARD */
+.skin-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.25s;position:relative;}
+.skin-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.4);}
+.skin-card.my-bid{border-color:rgba(240,165,0,0.5);}
+.rarity-line{height:2px;width:100%;}
+.skin-img-wrap{background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);padding:1.25rem;display:flex;align-items:center;justify-content:center;height:130px;}
+.skin-img-wrap img{max-height:100px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5));transition:transform 0.3s;}
+.skin-card:hover .skin-img-wrap img{transform:scale(1.06) rotate(-2deg);}
+.skin-body{padding:12px 14px;}
+.skin-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;letter-spacing:0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.skin-wear{font-size:11px;color:var(--text3);margin-bottom:10px;}
+.skin-meta{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;}
+.price-block .plabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.price-block .amount{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
+.price-block .amount.green{color:var(--green);}
+.timer-block{text-align:right;}
+.timer-block .plabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.timer-chip{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:1px;background:var(--greenglow);color:var(--green);border:1px solid rgba(38,217,127,0.2);}
+.timer-chip.ending{background:var(--redglow);color:var(--red);border-color:rgba(255,77,77,0.2);animation:pulse 1s infinite;}
+.timer-chip.ended{background:var(--bg3);color:var(--text3);border-color:var(--border);animation:none;}
+.top-bidder{font-size:11px;color:var(--text3);margin-bottom:8px;}
+.top-bidder span{color:var(--blue);}
+.bid-row{display:flex;gap:6px;}
+.bid-input{flex:1;min-width:0;height:34px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;padding:0 10px;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.bid-input:focus{outline:none;border-color:var(--accent);}
+.bid-btn{height:34px;padding:0 12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0c10;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;white-space:nowrap;}
+.bid-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,165,0,0.4);}
+.bid-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;transform:none;box-shadow:none;}
+
+/* INV CARD */
+.inv-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.25s;}
+.inv-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.4);}
+.inv-body{padding:12px 14px;}
+.inv-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inv-wear{font-size:11px;color:var(--text3);margin-bottom:8px;}
+.inv-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.list-btn{width:100%;height:34px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;}
+.list-btn:hover{background:var(--accent);color:#0a0c10;}
+.listed-chip{width:100%;text-align:center;font-size:11px;color:var(--green);background:var(--greenglow);border:1px solid rgba(38,217,127,0.2);border-radius:8px;padding:6px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;}
+
+/* PROFILE CARD */
+.profile-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;position:relative;overflow:hidden;}
+.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent),var(--purple));}
+.profile-avatar-lg{width:72px;height:72px;border-radius:12px;border:2px solid var(--accent);object-fit:cover;}
+.profile-info .pname{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:1px;}
+.profile-info .pid{font-size:12px;color:var(--text3);margin-top:3px;font-family:monospace;}
+.profile-info .pstatus{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--green);}
+.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:2rem;width:420px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.6);transform:translateY(20px);transition:transform 0.25s;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal h3{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:1px;margin-bottom:1.25rem;}
+.modal-preview{background:var(--bg3);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;border:1px solid var(--border);}
+.modal-preview img{width:90px;height:65px;object-fit:contain;}
+.modal-preview .mname{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
+.modal-preview .mwear{font-size:12px;color:var(--text3);margin-top:3px;}
+.modal-preview .mprice{font-size:14px;color:var(--accent);margin-top:5px;font-weight:600;}
+.modal label{font-size:11px;color:var(--text2);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+.modal input{width:100%;height:44px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;padding:0 14px;font-family:'Inter',sans-serif;margin-bottom:1rem;transition:all 0.2s;}
+.modal input:focus{outline:none;border-color:var(--accent);}
+.modal-btns{display:flex;gap:8px;}
+.modal-confirm{flex:1;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0c10;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;}
+.modal-confirm:hover{box-shadow:0 6px 20px rgba(240,165,0,0.4);}
+.modal-cancel{flex:1;height:44px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;transition:all 0.2s;}
+.modal-cancel:hover{background:var(--bg3);}
+
+/* PAY MODAL */
+.card-icons{display:flex;gap:6px;margin-bottom:1rem;}
+.card-icon{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--text2);}
+.card-icon.visa{color:#1a6fff;border-color:rgba(26,111,255,0.3);}
+.card-icon.mc{color:#ff5f00;border-color:rgba(255,95,0,0.3);}
+.card-field{margin-bottom:10px;}
+.card-field label{font-size:11px;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
+.card-field input{width:100%;height:42px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;font-family:'Inter',sans-serif;transition:all 0.2s;margin-bottom:0;}
+.card-field input:focus{outline:none;border-color:var(--blue);}
+.card-row-2{display:flex;gap:10px;}
+.card-row-2 .card-field{flex:1;}
+.pay-btn{width:100%;height:48px;background:linear-gradient(135deg,var(--green),#1aad60);border:none;border-radius:12px;color:#0a0c10;font-size:15px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;margin-top:10px;}
+.pay-btn:hover{box-shadow:0 8px 25px rgba(38,217,127,0.4);transform:translateY(-1px);}
+.secure-note{text-align:center;font-size:11px;color:var(--text3);margin-top:8px;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--text);z-index:400;transform:translateY(80px);opacity:0;transition:all 0.3s;max-width:340px;box-shadow:0 8px 25px rgba(0,0,0,0.4);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:rgba(38,217,127,0.4);}
+.toast.error{border-color:rgba(255,77,77,0.4);}
+
+/* LOADING / EMPTY */
+.loading{display:flex;align-items:center;justify-content:center;padding:4rem;gap:12px;color:var(--text2);font-size:14px;flex-direction:column;}
+.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty-state{text-align:center;padding:4rem;color:var(--text3);border:1px dashed var(--border);border-radius:16px;}
+.empty-state .icon{font-size:48px;margin-bottom:1rem;opacity:0.3;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-page" id="login-page">
+  <div class="big-logo">CS2VAULT</div>
+  <div class="login-sub">Profesyonel CS2 Skin Açık Artırma Platformu</div>
+  <div class="login-card">
+    <h2>GİRİŞ YAP</h2>
+    <p>Steam ID'nizi girerek envanterinize erişin ve açık artırmalara katılın.</p>
+    <input class="id-input" id="steam-id-input" type="text" placeholder="Steam ID (örn: 76561198363027411)">
+    <button class="login-btn" id="login-btn-el" onclick="doLogin()">GİRİŞ YAP →</button>
+    <div class="login-note">🔒 Yalnızca herkese açık profil ve envanter bilgileri kullanılır.</div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="main-navbar" style="display:none;">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="cs">CS2</span><span class="vault">VAULT</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="navigate('market',this)">Pazar</button>
+    <button class="nav-btn" onclick="navigate('my-auctions',this)">Açık Artırmalarım</button>
+    <button class="nav-btn" onclick="navigate('inventory',this)">Envanter</button>
+  </div>
+  <div class="nav-right">
+    <div class="balance-chip">$1,000.00</div>
+    <div class="user-chip">
+      <img class="user-avatar" id="nav-avatar" src="" alt="">
+      <span class="user-name" id="nav-name">...</span>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Çıkış</button>
+  </div>
+</nav>
+
+<div class="main" id="main-content" style="display:none;">
+
+  <!-- MARKET -->
+  <div id="page-market" class="page active">
+    <div class="stats-bar">
+      <div class="stat-card"><div class="stat-label">Aktif Artırma</div><div class="stat-value blue" id="s-active">0</div></div>
+      <div class="stat-card"><div class="stat-label">Toplam Teklif</div><div class="stat-value accent" id="s-bids">0</div></div>
+      <div class="stat-card"><div class="stat-label">En Yüksek Değer</div><div class="stat-value green" id="s-top">$0</div></div>
+      <div class="stat-card"><div class="stat-label">Bakiye</div><div class="stat-value accent">$1,000</div></div>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Herkese Açık Açık Artırmalar <span class="badge live">● CANLI</span></div>
+    </div>
+    <div class="cat-tabs" id="market-cats"></div>
+    <div class="skin-grid" id="market-grid">
+      <div class="loading"><div class="spinner"></div>Steam Market'ten yükleniyor...</div>
+    </div>
+  </div>
+
+  <!-- MY AUCTIONS -->
+  <div id="page-my-auctions" class="page">
+    <div class="section-header"><div class="section-title">Açık Artırmalarım</div></div>
+    <div id="my-auctions-content">
+      <div class="empty-state"><div class="icon">🎯</div><div>Henüz açık artırman yok</div></div>
+    </div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="page-inventory" class="page">
+    <div id="profile-area"></div>
+    <div class="section-header">
+      <div class="section-title">Envanter <span class="badge" id="inv-count">...</span></div>
+    </div>
+    <div class="cat-tabs" id="inv-cats"></div>
+    <div class="skin-grid" id="inventory-grid">
+      <div class="loading"><div class="spinner"></div>Envanter yükleniyor...</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIST MODAL -->
+<div class="modal-overlay" id="list-modal">
+  <div class="modal">
+    <h3>🏷️ Açık Artırmaya Çıkar</h3>
+    <div class="modal-preview">
+      <img id="lm-img" src="" alt="">
+      <div><div class="mname" id="lm-name"></div><div class="mwear" id="lm-wear"></div><div class="mprice" id="lm-price"></div></div>
+    </div>
+    <label>Başlangıç Fiyatı ($)</label>
+    <input type="number" id="lm-start" placeholder="0.00" min="0.01" step="0.01">
+    <label>Süre (Saat)</label>
+    <input type="number" id="lm-dur" placeholder="24" min="1" max="72" value="24">
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeListModal()">İptal</button>
+      <button class="modal-confirm" onclick="confirmList()">Listele ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAY MODAL -->
+<div class="modal-overlay" id="pay-modal">
+  <div class="modal">
+    <h3>💳 Ödeme</h3>
+    <div class="modal-preview">
+      <img id="pm-img" src="" alt="">
+      <div><div class="mname" id="pm-name"></div><div class="mwear" id="pm-wear"></div><div class="mprice" id="pm-amt" style="color:var(--green);font-size:20px;"></div></div>
+    </div>
+    <div class="card-icons">
+      <div class="card-icon visa">VISA</div>
+      <div class="card-icon mc">MC</div>
+      <div class="card-icon">AMEX</div>
+    </div>
+    <div class="card-field"><label>Kart Üzerindeki İsim</label><input type="text" id="pm-name-inp" placeholder="AD SOYAD"></div>
+    <div class="card-field"><label>Kart Numarası</label><input type="text" id="pm-card" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)"></div>
+    <div class="card-row-2">
+      <div class="card-field"><label>Son Kullanma</label><input type="text" id="pm-exp" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)"></div>
+      <div class="card-field"><label>CVV</label><input type="text" id="pm-cvv" placeholder="•••" maxlength="3"></div>
+    </div>
+    <button class="pay-btn" onclick="confirmPay()">🔒 ÖDEMEYİ TAMAMLA</button>
+    <div class="secure-note">🔒 256-bit SSL şifrelemesi ile güvende</div>
+    <button class="modal-cancel" style="width:100%;margin-top:10px;" onclick="closePayModal()">İptal</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STEAM_API_KEY = 'F63CD7ADEB27F331C560DAA191244CC0';
+const API = window.location.origin;
+
+// Popular CS2 market items by category
+const MARKET_ITEMS = {
+  'Bıçaklar': [
+    'Karambit | Doppler (Factory New)',
+    'Butterfly Knife | Fade (Factory New)',
+    'M9 Bayonet | Crimson Web (Minimal Wear)',
+    'Karambit | Tiger Tooth (Factory New)',
+    'Butterfly Knife | Doppler (Factory New)',
+    'Stiletto Knife | Marble Fade (Factory New)',
+    'Talon Knife | Doppler (Factory New)',
+    'Ursus Knife | Fade (Factory New)'
+  ],
+  'Eldivenler': [
+    'Sport Gloves | Pandora\'s Box (Field-Tested)',
+    'Specialist Gloves | Crimson Kimono (Well-Worn)',
+    'Hand Wraps | Cobalt Skulls (Field-Tested)',
+    'Moto Gloves | Spearmint (Field-Tested)',
+    'Driver Gloves | King Snake (Field-Tested)',
+    'Bloodhound Gloves | Charred (Field-Tested)'
+  ],
+  'Tüfekler': [
+    'AK-47 | Case Hardened (Field-Tested)',
+    'AK-47 | Wild Lotus (Minimal Wear)',
+    'AK-47 | Printstream (Minimal Wear)',
+    'AWP | Dragon Lore (Field-Tested)',
+    'AWP | Printstream (Minimal Wear)',
+    'AWP | Containment Breach (Field-Tested)',
+    'M4A4 | Poseidon (Field-Tested)',
+    'M4A1-S | Printstream (Minimal Wear)',
+    'M4A1-S | Vaporwave (Factory New)',
+    'AK-47 | Panthera onca (Minimal Wear)'
+  ],
+  'Tabancalar': [
+    'USP-S | Kill Confirmed (Field-Tested)',
+    'USP-S | Printstream (Minimal Wear)',
+    'Desert Eagle | Blaze (Factory New)',
+    'Desert Eagle | Printstream (Minimal Wear)',
+    'Glock-18 | Fade (Factory New)',
+    'P250 | See Ya Later (Factory New)'
+  ]
+};
+
+let steamProfile = null;
+let inventorySkins = [];
+let myAuctions = [];
+let marketSkins = [];
+let listingItem = null;
+let payItem = null;
+let totalBids = 0;
+let currentMarketCat = 'Tümü';
+let currentInvCat = 'Tümü';
+
+function fmtMoney(n) {
+  if(!n && n!==0) return '$0.00';
+  return '$' + parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function fmtTime(s) {
+  if(s<=0) return 'BİTTİ';
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;
+  if(h>0) return h+'s '+String(m).padStart(2,'0')+'d';
+  return String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');
+}
+function showToast(msg, type='') {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show '+type;
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='toast',2800);
+}
+function rarityColor(name) {
+  if(!name) return '#aaa';
+  const n=name.toLowerCase();
+  if(n.includes('contraband')) return '#e4ae39';
+  if(n.includes('covert')||n.includes('ancient')) return '#eb4b4b';
+  if(n.includes('classified')||n.includes('legendary')) return '#8847ff';
+  if(n.includes('restricted')||n.includes('epic')) return '#4b69ff';
+  if(n.includes('mil-spec')||n.includes('rare')) return '#5e98d9';
+  return '#aaa';
+}
+
+async function doLogin() {
+  const id = document.getElementById('steam-id-input').value.trim();
+  if(!id) { showToast('Steam ID girin!','error'); return; }
+  document.getElementById('login-btn-el').textContent = 'Yükleniyor...';
+
+  try {
+    // Fetch profile via corsproxy.io
+    const r = await fetch(`${API}/api/profile/${id}`);
+    const player = await r.json();
+    if(player.error) throw new Error(player.error);
+    steamProfile = {
+      id,
+      name: player.name,
+      avatar: player.avatar,
+      status: player.status
+    };
+  } catch(e) {
+    steamProfile = { id, name: 'Steam Kullanıcısı', avatar: '', status: 'online' };
+  }
+
+  // Load market skins
+  loadMarketSkins();
+
+  // Load inventory
+  loadInventory(steamProfile.id);
+
+  showMainApp();
+}
+
+function showMainApp() {
+  document.getElementById('login-page').classList.add('hidden');
+  document.getElementById('main-navbar').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'block';
+  document.getElementById('nav-avatar').src = steamProfile.avatar;
+  document.getElementById('nav-name').textContent = steamProfile.name;
+}
+
+function doLogout() {
+  location.reload();
+}
+
+function navigate(page, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ===== MARKET =====
+const SKIN_HASHES = {"Karambit | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uMmoK0keTLf7-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Butterfly Knife | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2r_AppWn3ge3-lc5YDv3do7fSg", "M9 Bayonet | Crimson Web (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uMmoK0keLLf7-AxjsDucFy2r_AppSl0lW3-lc5YDv3do7fSg", "Karambit | Tiger Tooth (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmJbkfb-AxjsDucFy2r_AppSl0lW3-lc5YDv3do7fSg", "Butterfly Knife | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Stiletto Knife | Marble Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b-bptSk2VC8-VM9ZQ", "Talon Knife | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Ursus Knife | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Sport Gloves | Pandora's Box (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Specialist Gloves | Crimson Kimono (Well-Worn)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Hand Wraps | Cobalt Skulls (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Moto Gloves | Spearmint (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Driver Gloves | King Snake (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Bloodhound Gloves | Charred (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "AK-47 | Case Hardened (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2Khe6hZmyBxjkG68F3TuR8su6YVjt_VNpNjv6dYOVIg", "AK-47 | Wild Lotus (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "AK-47 | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yBxjkG68F3TuR8su6YVjt_VNpNjv6dYOVIg", "AWP | Dragon Lore (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2PmOywg76KxDgDucEl4r-V8d-higFk-VQ8YA", "AWP | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "AWP | Containment Breach (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "M4A4 | Poseidon (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmJbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "M4A1-S | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "M4A1-S | Vaporwave (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "AK-47 | Panthera onca (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "USP-S | Kill Confirmed (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "USP-S | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "Desert Eagle | Blaze (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2Khe6hZmyBxjkG68Fy3r2Q9Nqk0Vs", "Desert Eagle | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "Glock-18 | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "P250 | See Ya Later (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc"};
+
+function getSkinImg(name) {
+  const hash = SKIN_HASHES[name];
+  if(hash) return `https://community.fastly.steamstatic.com/economy/image/${hash}/360fx360f`;
+  // fallback: use market listing image
+  return `https://community.fastly.steamstatic.com/economy/image/class/730/0/360fx360f`;
+}
+
+async function loadMarketSkins() {
+  marketSkins = [];
+  const allItems = [];
+  for(const [cat, items] of Object.entries(MARKET_ITEMS)) {
+    for(const item of items) {
+      allItems.push({ name: item, cat });
+    }
+  }
+
+  // Render cats
+  renderMarketCats();
+  renderMarketGrid('Tümü');
+
+  // Fetch prices in batches
+  let loaded = 0;
+  for(const item of allItems) {
+    try {
+      // Fetch price + image hash from market in one call
+      const [priceResp, listingResp] = await Promise.all([
+        fetch(`${API}/api/price?name=${encodeURIComponent(item.name)}`).catch(()=>null),
+        fetch(`${API}/api/listing?name=${encodeURIComponent(item.name)}`).catch(()=>null)
+      ]);
+      const data = priceResp ? await priceResp.json().catch(()=>({})) : {};
+      const listing = listingResp ? await listingResp.json().catch(()=>({})) : {};
+      const imgUrl = listing.img || '';
+      
+      const skinData = {
+        id: Date.now() + Math.random(),
+        name: item.name,
+        cat: item.cat,
+        price: data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 0,
+        priceRaw: data.lowest_price || 'N/A',
+        volume: data.volume || '0',
+        img: imgUrl,
+        imgAlt: `https://steamcommunity.com/market/listings/730/${encodeURIComponent(item.name)}`,
+        rarity: item.cat === 'Bıçaklar' ? '#e4ae39' : item.cat === 'Eldivenler' ? '#eb4b4b' : '#8847ff',
+        wear: item.name.match(/\((.*?)\)/)?.[1] || '',
+        currentBid: data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 10,
+        topBidder: null,
+        timeLeft: Math.floor(Math.random()*7200)+600
+      };
+      marketSkins.push(skinData);
+      loaded++;
+      // Append card directly without re-rendering entire grid
+      appendMarketCard(skinData);
+      updateStats();
+      await new Promise(r=>setTimeout(r,500)); // rate limit
+    } catch(e) {
+      // skip failed
+    }
+  }
+  renderMarketGrid(currentMarketCat);
+  updateStats();
+}
+
+function getMarketImg(name) {
+  // Use Steam CDN image lookup
+  return `https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc/200fx200f`;
+}
+
+function renderMarketCats() {
+  const cats = ['Tümü', ...Object.keys(MARKET_ITEMS)];
+  document.getElementById('market-cats').innerHTML = cats.map(c =>
+    `<div class="cat-tab${c==='Tümü'?' active':''}" onclick="setMarketCat('${c}',this)">${c}</div>`
+  ).join('');
+}
+
+function setMarketCat(cat, el) {
+  currentMarketCat = cat;
+  document.querySelectorAll('#market-cats .cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMarketGrid(cat);
+}
+
+function renderMarketGrid(cat) {
+  const grid = document.getElementById('market-grid');
+  const skins = cat === 'Tümü' ? marketSkins : marketSkins.filter(s=>s.cat===cat);
+
+  if(marketSkins.length === 0) {
+    grid.innerHTML = '<div class="loading"><div class="spinner"></div>Steam Market\'ten yükleniyor...</div>';
+    return;
+  }
+  if(skins.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><div>Bu kategoride henüz skin yok</div></div>';
+    return;
+  }
+
+  grid.innerHTML = skins.map(s => {
+    const ended=s.timeLeft<=0, ending=s.timeLeft>0&&s.timeLeft<600;
+    const isMine=s.topBidder==='Sen';
+    return `<div class="skin-card${isMine?' my-bid':''}">
+      <div class="rarity-line" style="background:${s.rarity}"></div>
+      <div class="skin-img-wrap">
+        <img src="${s.img}" onerror="this.style.opacity='0.2'" alt="${s.name}">
+      </div>
+      <div class="skin-body">
+        <div class="skin-name" title="${s.name}">${s.name.replace(/\s*\(.*?\)\s*/,'')}</div>
+        <div class="skin-wear">${s.cat} · ${s.wear}</div>
+        <div class="skin-meta">
+          <div class="price-block">
+            <div class="plabel">En Yüksek Teklif</div>
+            <div class="amount${isMine?' green':''}" id="mamt-${s.id}">${fmtMoney(s.currentBid)}</div>
+          </div>
+          <div class="timer-block">
+            <div class="plabel">Kalan</div>
+            <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mtimer-${s.id}">${fmtTime(s.timeLeft)}</div>
+          </div>
+        </div>
+        <div class="top-bidder">En yüksek: <span id="mbidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Piyasa: ${s.priceRaw} · Hacim: ${s.volume}</div>
+        ${!ended?`
+        <div class="bid-row">
+          <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
+          <button class="bid-btn" onclick="placeBid('${s.id}')">TEKLİF</button>
+        </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function appendMarketCard(s) {
+  const grid = document.getElementById('market-grid');
+  // Remove loading spinner if present
+  const loader = grid.querySelector('.loading');
+  if(loader) loader.remove();
+  // Only show if matches current cat
+  if(currentMarketCat !== 'Tümü' && s.cat !== currentMarketCat) return;
+  const div = document.createElement('div');
+  div.className = 'skin-card';
+  div.id = 'card-' + s.id;
+  div.innerHTML = getCardHTML(s);
+  grid.appendChild(div);
+}
+
+function getCardHTML(s) {
+  const ended=s.timeLeft<=0, ending=s.timeLeft>0&&s.timeLeft<600;
+  const isMine=s.topBidder==='Sen';
+  return `<div class="rarity-line" style="background:${s.rarity}"></div>
+    <div class="skin-img-wrap"><img src="${s.img}" onerror="this.style.opacity='0.2'" alt="${s.name}" loading="lazy"></div>
+    <div class="skin-body">
+      <div class="skin-name" title="${s.name}">${s.name.replace(/\s*\(.*?\)\s*/,'')}</div>
+      <div class="skin-wear">${s.cat} · ${s.wear}</div>
+      <div class="skin-meta">
+        <div class="price-block">
+          <div class="plabel">En Yüksek Teklif</div>
+          <div class="amount${isMine?' green':''}" id="mamt-${s.id}">${fmtMoney(s.currentBid)}</div>
+        </div>
+        <div class="timer-block">
+          <div class="plabel">Kalan</div>
+          <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mtimer-${s.id}">${fmtTime(s.timeLeft)}</div>
+        </div>
+      </div>
+      <div class="top-bidder">En yüksek: <span id="mbidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Piyasa: ${s.priceRaw} · Hacim: ${s.volume}</div>
+      ${!ended?`
+      <div class="bid-row">
+        <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
+        <button class="bid-btn" onclick="placeBid('${s.id}')">TEKLİF</button>
+      </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
+    </div>`;
+}
+
+
+function updateStats() {
+  document.getElementById('s-active').textContent = marketSkins.filter(s=>s.timeLeft>0).length;
+  const maxPrice = Math.max(...marketSkins.map(s=>s.price), 0);
+  document.getElementById('s-top').textContent = fmtMoney(maxPrice);
+}
+
+function placeBid(id) {
+  const skin = marketSkins.find(s=>String(s.id)===String(id));
+  if(!skin||skin.timeLeft<=0) return;
+  const inp=document.getElementById('minp-'+id);
+  const val=parseFloat(inp.value);
+  if(!val||val<=skin.currentBid){showToast('Mevcut tekliften yüksek olmalı!','error');return;}
+  skin.currentBid=val; skin.topBidder='Sen'; inp.value='';
+  totalBids++;
+  document.getElementById('s-bids').textContent=totalBids;
+  const a=document.getElementById('mamt-'+id), b=document.getElementById('mbidder-'+id);
+  if(a){a.textContent=fmtMoney(val);a.className='amount green';}
+  if(b) b.textContent='Sen';
+  showToast(skin.name+' için '+fmtMoney(val)+' teklif verildi!','success');
+}
+
+// ===== INVENTORY =====
+async function loadInventory(steamId) {
+  try {
+    const r = await fetch(`${API}/api/inventory/${steamId}`);
+    const inv = await r.json();
+
+    if(!inv||!inv.assets||!inv.descriptions) { inventorySkins=[]; renderInventory(); return; }
+
+    inventorySkins = [];
+    inv.assets.forEach(asset => {
+      const desc = inv.descriptions.find(d=>d.classid===asset.classid&&d.instanceid===asset.instanceid);
+      if(!desc||!desc.tags) return;
+      const weaponTag=desc.tags.find(t=>t.category==='Weapon');
+      const rarityTag=desc.tags.find(t=>t.category==='Rarity');
+      const wearTag=desc.tags.find(t=>t.category==='Exterior');
+      if(!weaponTag) return;
+
+      const catMap = {'Knife':'Bıçaklar','Gloves':'Eldivenler','Rifle':'Tüfekler','Pistol':'Tabancalar','SMG':'SMG','Sniper Rifle':'Tüfekler','Shotgun':'Diğer','Machine Gun':'Diğer'};
+      const wType = weaponTag.internal_name?.replace('CSGO_Type_','') || 'Diğer';
+      const cat = catMap[wType] || 'Diğer';
+
+      inventorySkins.push({
+        id: asset.assetid,
+        name: desc.market_hash_name,
+        wear: wearTag?.localized_tag_name || '',
+        rarity: rarityColor(rarityTag?.localized_tag_name),
+        rarityName: rarityTag?.localized_tag_name || '',
+        cat,
+        img: `https://community.fastly.steamstatic.com/economy/image/${desc.icon_url}/200fx200f`,
+        market: 0,
+        listed: false
+      });
+    });
+    renderInventory();
+    // Fetch prices for first 20 items
+    fetchInvPrices();
+  } catch(e) {
+    inventorySkins = [];
+    renderInventory();
+    showToast('Envanter yüklenemedi. Lütfen envanterinizin herkese açık olduğundan emin olun.','error');
+  }
+}
+
+async function fetchInvPrices() {
+  for(let i=0; i<Math.min(20, inventorySkins.length); i++) {
+    const s = inventorySkins[i];
+    try {
+      const url = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(s.name)}`;
+      const r = await fetch(PROXY + encodeURIComponent(url));
+      const data = await r.json();
+      s.market = data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 0;
+      renderInventory();
+      await new Promise(r=>setTimeout(r,300));
+    } catch(e) {}
+  }
+}
+
+function renderInventory() {
+  // Profile
+  const pa = document.getElementById('profile-area');
+  if(steamProfile) {
+    pa.innerHTML = `<div class="profile-card">
+      ${steamProfile.avatar?`<img class="profile-avatar-lg" src="${steamProfile.avatar}" alt="">`:'<div class="profile-avatar-lg" style="background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:28px;border-radius:12px;">👤</div>'}
+      <div class="profile-info">
+        <div class="pname">${steamProfile.name}</div>
+        <div class="pid">Steam ID: ${steamProfile.id}</div>
+        <div class="pstatus"><div class="status-dot"></div>Çevrimiçi</div>
+      </div>
+    </div>`;
+  }
+
+  // Cats
+  const cats = ['Tümü', ...new Set(inventorySkins.map(s=>s.cat).filter(Boolean))];
+  document.getElementById('inv-cats').innerHTML = cats.map(c=>
+    `<div class="cat-tab${c===currentInvCat?' active':''}" onclick="setInvCat('${c}',this)">${c}</div>`
+  ).join('');
+
+  const filtered = currentInvCat==='Tümü' ? inventorySkins : inventorySkins.filter(s=>s.cat===currentInvCat);
+  document.getElementById('inv-count').textContent = inventorySkins.length + ' item';
+
+  const grid = document.getElementById('inventory-grid');
+  if(inventorySkins.length===0) {
+    grid.innerHTML='<div class="empty-state"><div class="icon">🎒</div><div>Envanter boş veya gizli</div></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(s=>`
+    <div class="inv-card">
+      <div class="rarity-line" style="background:${s.rarity}"></div>
+      <div class="skin-img-wrap">
+        <img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='0.3'">
+      </div>
+      <div class="inv-body">
+        <div class="inv-name" title="${s.name}">${s.name}</div>
+        <div class="inv-wear">${s.rarityName}${s.wear?' · '+s.wear:''}</div>
+        <div class="inv-price">${s.market>0?fmtMoney(s.market):'Fiyat yükleniyor...'}</div>
+        ${s.listed
+          ?'<div class="listed-chip">ARTIRMADA ✓</div>'
+          :`<button class="list-btn" onclick="openListModal('${s.id}')">AÇIK ARTIRMAYA ÇIKAR</button>`}
+      </div>
+    </div>
+  `).join('');
+}
+
+function setInvCat(cat, el) {
+  currentInvCat = cat;
+  document.querySelectorAll('#inv-cats .cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderInventory();
+}
+
+// ===== LIST MODAL =====
+function openListModal(itemId) {
+  const item = inventorySkins.find(s=>String(s.id)===String(itemId));
+  if(!item) return;
+  listingItem = item;
+  document.getElementById('lm-img').src = item.img;
+  document.getElementById('lm-name').textContent = item.name;
+  document.getElementById('lm-wear').textContent = item.wear;
+  document.getElementById('lm-price').textContent = item.market>0?'Piyasa: '+fmtMoney(item.market):'';
+  document.getElementById('lm-start').value = item.market>0?item.market.toFixed(2):'';
+  document.getElementById('list-modal').classList.add('open');
+}
+function closeListModal() { document.getElementById('list-modal').classList.remove('open'); listingItem=null; }
+function confirmList() {
+  if(!listingItem) return;
+  const sp=parseFloat(document.getElementById('lm-start').value);
+  const dur=parseInt(document.getElementById('lm-dur').value);
+  if(!sp||sp<=0){showToast('Geçerli fiyat girin!','error');return;}
+  if(!dur||dur<1){showToast('Geçerli süre girin!','error');return;}
+  myAuctions.push({...listingItem, startPrice:sp, currentBid:sp, topBidder:null, timeLeft:dur*3600, id:'my-'+Date.now()});
+  listingItem.listed=true;
+  closeListModal();
+  renderInventory();
+  renderMyAuctions();
+  showToast(listingItem.name+' açık artırmaya çıkarıldı!','success');
+}
+
+// ===== MY AUCTIONS =====
+function renderMyAuctions() {
+  const el=document.getElementById('my-auctions-content');
+  if(myAuctions.length===0){el.innerHTML='<div class="empty-state"><div class="icon">🎯</div><div>Henüz açık artırman yok</div></div>';return;}
+  el.innerHTML='<div class="skin-grid">'+myAuctions.map(s=>{
+    const ended=s.timeLeft<=0,ending=s.timeLeft>0&&s.timeLeft<600;
+    return `<div class="skin-card">
+      <div class="rarity-line" style="background:${s.rarity||'#aaa'}"></div>
+      <div class="skin-img-wrap"><img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='0.3'"></div>
+      <div class="skin-body">
+        <div class="skin-name">${s.name}</div>
+        <div class="skin-wear">${s.wear||''}</div>
+        <div class="skin-meta">
+          <div class="price-block">
+            <div class="plabel">Güncel Teklif</div>
+            <div class="amount green" id="myamt-${s.id}">${fmtMoney(s.currentBid)}</div>
+          </div>
+          <div class="timer-block">
+            <div class="plabel">Kalan</div>
+            <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mytimer-${s.id}">${fmtTime(s.timeLeft)}</div>
+          </div>
+        </div>
+        <div class="top-bidder">Teklifçi: <span id="mybidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
+        <div style="font-size:11px;color:var(--text3)">Başlangıç: ${fmtMoney(s.startPrice)}</div>
+      </div>
+    </div>`;
+  }).join('')+'</div>';
+}
+
+// ===== PAY MODAL =====
+function openPayModal(id) {
+  const s=marketSkins.find(x=>String(x.id)===String(id));
+  if(!s) return;
+  payItem=s;
+  document.getElementById('pm-img').src=s.img||'';
+  document.getElementById('pm-name').textContent=s.name;
+  document.getElementById('pm-wear').textContent=s.wear;
+  document.getElementById('pm-amt').textContent=fmtMoney(s.currentBid);
+  document.getElementById('pay-modal').classList.add('open');
+}
+function closePayModal(){document.getElementById('pay-modal').classList.remove('open');payItem=null;}
+function confirmPay(){
+  const n=document.getElementById('pm-name-inp').value.trim();
+  const c=document.getElementById('pm-card').value.trim();
+  const e=document.getElementById('pm-exp').value.trim();
+  const v=document.getElementById('pm-cvv').value.trim();
+  if(!n||!c||!e||!v){showToast('Tüm alanları doldurun!','error');return;}
+  closePayModal();
+  showToast('✅ Ödeme başarılı! (Demo)','success');
+}
+function fmtCard(inp){let v=inp.value.replace(/\D/g,'').substring(0,16);inp.value=v.replace(/(\d{4})/g,'$1 ').trim();}
+function fmtExp(inp){let v=inp.value.replace(/\D/g,'').substring(0,4);if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2);inp.value=v;}
+
+// ===== TIMERS =====
+const BOTS=['xSniper99','ProPlayer','SkinHunter','CsKing','TradeGod','VaultBot'];
+setInterval(()=>{
+  marketSkins.forEach(s=>{
+    if(s.timeLeft>0){
+      s.timeLeft--;
+      if(Math.random()<0.025&&s.topBidder!=='Sen'&&s.timeLeft>30){
+        s.currentBid=parseFloat((s.currentBid+Math.random()*s.currentBid*0.03+0.5).toFixed(2));
+        s.topBidder=BOTS[Math.floor(Math.random()*BOTS.length)];
+        const a=document.getElementById('mamt-'+s.id),b=document.getElementById('mbidder-'+s.id);
+        if(a)a.textContent=fmtMoney(s.currentBid);
+        if(b)b.textContent=s.topBidder;
+      }
+      const t=document.getElementById('mtimer-'+s.id);
+      if(t){t.textContent=fmtTime(s.timeLeft);t.className='timer-chip'+(s.timeLeft<=0?' ended':s.timeLeft<600?' ending':'');}
+    }
+  });
+  myAuctions.forEach(s=>{
+    if(s.timeLeft>0){
+      s.timeLeft--;
+      if(Math.random()<0.04&&s.timeLeft>30){
+        s.currentBid=parseFloat((s.currentBid+Math.random()*5+0.5).toFixed(2));
+        s.topBidder=BOTS[Math.floor(Math.random()*BOTS.length)];
+        const a=document.getElementById('myamt-'+s.id),b=document.getElementById('mybidder-'+s.id);
+        if(a)a.textContent=fmtMoney(s.currentBid);
+        if(b)b.textContent=s.topBidder;
+      }
+      const t=document.getElementById('mytimer-'+s.id);
+      if(t){t.textContent=fmtTime(s.timeLeft);t.className='timer-chip'+(s.timeLeft<=0?' ended':s.timeLeft<600?' ending':'');}
+    }
+  });
+},1000);
+</script>
+</body>
+</html>
