@@ -7,386 +7,488 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#070a0f; --bg2:#0d1117; --bg3:#161c26; --bg4:#1e2736;
-  --border:#1e2a3a; --border2:#2a3a50;
-  --accent:#f0a500; --accent2:#ffbe30; --accentglow:rgba(240,165,0,0.15);
-  --blue:#4fc3f7; --blueglow:rgba(79,195,247,0.15);
-  --green:#26d97f; --greenglow:rgba(38,217,127,0.15);
-  --red:#ff4d4d; --redglow:rgba(255,77,77,0.15);
-  --purple:#a855f7;
-  --text:#e2e8f0; --text2:#7a8fa8; --text3:#3a4a5c;
+  --bg:#060810; --bg2:#0c111a; --bg3:#141c28; --bg4:#1a2435;
+  --border:#1c2840; --border2:#263350;
+  --accent:#f0a500; --accent2:#ffc040;
+  --blue:#38b6ff; --green:#00e676; --red:#ff4444; --purple:#b388ff;
+  --text:#dde4f0; --text2:#6b82a0; --text3:#2e3f55;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,195,247,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,195,247,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 80% 50% at 20% -10%,rgba(56,182,255,0.07),transparent),
+  radial-gradient(ellipse 60% 40% at 80% 110%,rgba(240,165,0,0.05),transparent);
+  pointer-events:none;z-index:0;}
 
-/* NAVBAR */
-.navbar{position:sticky;top:0;z-index:100;background:rgba(7,10,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:4px;display:flex;align-items:center;gap:10px;}
-.logo-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;box-shadow:0 0 10px var(--accent);}
-.logo .cs{color:var(--blue);text-shadow:0 0 20px rgba(79,195,247,0.5);}
-.logo .vault{color:var(--accent);text-shadow:0 0 20px rgba(240,165,0,0.5);}
+/* ─── NAVBAR ─── */
+.navbar{position:sticky;top:0;z-index:100;height:62px;
+  background:rgba(6,8,16,0.92);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 2rem;}
+.logo{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:4px;
+  display:flex;align-items:center;gap:8px;}
+.logo-icon{width:28px;height:28px;background:linear-gradient(135deg,var(--blue),var(--accent));
+  border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.logo-text .cs{color:var(--blue)}.logo-text .vault{color:var(--accent)}
 .nav-links{display:flex;gap:2px;}
-.nav-btn{background:none;border:none;color:var(--text2);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all 0.2s;position:relative;}
+.nav-btn{background:none;border:none;color:var(--text2);font-size:13px;font-weight:500;
+  padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;
+  position:relative;}
 .nav-btn:hover{background:var(--bg3);color:var(--text);}
-.nav-btn.active{color:var(--accent);background:var(--accentglow);}
-.nav-btn.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:60%;height:2px;background:var(--accent);border-radius:2px;box-shadow:0 0 8px var(--accent);}
+.nav-btn.active{color:var(--accent);background:rgba(240,165,0,0.08);}
+.nav-btn.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);
+  width:50%;height:2px;background:var(--accent);border-radius:2px;}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.balance-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 16px;font-size:14px;font-weight:700;color:var(--accent);font-family:'Rajdhani',sans-serif;letter-spacing:1px;}
-.user-chip{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:5px 14px;display:flex;align-items:center;gap:10px;}
-.user-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;}
-.user-name{font-size:13px;font-weight:500;}
-.logout-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;color:var(--text3);font-size:12px;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
-.logout-btn:hover{border-color:var(--red);color:var(--red);background:var(--redglow);}
+.bal-chip{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;
+  padding:7px 14px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;
+  color:var(--accent);letter-spacing:1px;transition:all .3s;}
+.bal-chip.flash{background:rgba(0,230,118,0.1);border-color:rgba(0,230,118,0.3);}
+.user-pill{background:var(--bg3);border:1px solid var(--border);border-radius:10px;
+  padding:5px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.user-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;}
+.user-name{font-size:13px;font-weight:500;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.logout-btn{background:none;border:1px solid var(--border);border-radius:7px;
+  padding:6px 12px;color:var(--text3);font-size:12px;cursor:pointer;transition:all .2s;}
+.logout-btn:hover{border-color:var(--red);color:var(--red);background:rgba(255,68,68,0.08);}
 
-/* LOGIN */
-.login-page{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;}
-.login-page.hidden{display:none;}
-.big-logo{font-family:'Rajdhani',sans-serif;font-size:56px;font-weight:700;letter-spacing:8px;margin-bottom:1rem;background:linear-gradient(135deg,var(--blue),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(79,195,247,0.3));}
-.login-sub{color:var(--text2);font-size:15px;letter-spacing:1px;margin-bottom:3rem;}
-.login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:2.5rem;width:440px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
-.login-card h2{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;margin-bottom:0.5rem;}
-.login-card p{font-size:13px;color:var(--text2);margin-bottom:2rem;line-height:1.6;}
-.id-input{width:100%;height:46px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;font-family:'Inter',sans-serif;transition:all 0.2s;margin-bottom:10px;}
-.id-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accentglow);}
-.id-input::placeholder{color:var(--text3);}
-.login-btn{width:100%;height:48px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;color:#0a0c10;font-size:15px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:2px;transition:all 0.2s;}
-.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(240,165,0,0.4);}
-.login-note{font-size:11px;color:var(--text3);text-align:center;margin-top:1rem;line-height:1.6;}
+/* ─── LOGIN ─── */
+.login-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;}
+.login-overlay.gone{display:none;}
+.login-brand{text-align:center;margin-bottom:2.5rem;}
+.login-brand .big{font-family:'Rajdhani',sans-serif;font-size:58px;font-weight:700;letter-spacing:8px;
+  background:linear-gradient(135deg,var(--blue) 30%,var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 40px rgba(56,182,255,0.25));}
+.login-brand .sub{color:var(--text2);font-size:14px;letter-spacing:2px;margin-top:6px;}
+.login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;
+  padding:2.5rem;width:420px;max-width:92vw;
+  box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(56,182,255,0.05);}
+.login-card h2{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;
+  letter-spacing:2px;margin-bottom:6px;}
+.login-card p{font-size:13px;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;}
+.field-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;
+  display:block;margin-bottom:6px;}
+.text-input{width:100%;height:46px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;
+  font-family:'Inter',sans-serif;transition:all .2s;margin-bottom:12px;}
+.text-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(240,165,0,0.1);}
+.text-input::placeholder{color:var(--text3);}
+.primary-btn{width:100%;height:48px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;border-radius:10px;color:#060810;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:2px;transition:all .2s;}
+.primary-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(240,165,0,0.35);}
+.primary-btn:active{transform:translateY(0);}
+.primary-btn:disabled{opacity:.5;cursor:default;transform:none;box-shadow:none;}
+.login-note{font-size:11px;color:var(--text3);text-align:center;margin-top:12px;line-height:1.7;}
 
-/* MAIN */
-.main{max-width:1280px;margin:0 auto;padding:2rem;position:relative;z-index:1;}
-.page{display:none;}
-.page.active{display:block;}
+/* ─── MAIN ─── */
+.main{max-width:1320px;margin:0 auto;padding:2rem;position:relative;z-index:1;}
+.page{display:none;}.page.active{display:block;}
 
-/* STATS */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:2rem;}
-.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;position:relative;overflow:hidden;transition:all 0.2s;}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.5;}
-.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);}
-.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.stat-value{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;}
-.stat-value.accent{color:var(--accent);}
-.stat-value.blue{color:var(--blue);}
-.stat-value.green{color:var(--green);}
+/* ─── STATS ─── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:2rem;}
+.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:1.25rem 1.5rem;position:relative;overflow:hidden;transition:all .2s;}
+.stat-box::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.4;}
+.stat-box:hover{border-color:var(--border2);transform:translateY(-2px);}
+.stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.stat-val{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;}
+.val-blue{color:var(--blue);} .val-accent{color:var(--accent);} .val-green{color:var(--green);}
 
-/* SECTION */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px;}
-.section-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;display:flex;align-items:center;gap:10px;}
-.section-title::before{content:'';display:block;width:3px;height:20px;background:linear-gradient(180deg,var(--blue),var(--accent));border-radius:2px;}
-.badge{font-size:11px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:0.5px;}
-.badge.live{background:rgba(255,77,77,0.1);border-color:rgba(255,77,77,0.3);color:var(--red);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+/* ─── SECTION ─── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:8px;}
+.sec-title{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:2px;
+  display:flex;align-items:center;gap:10px;}
+.sec-title::before{content:'';width:3px;height:18px;
+  background:linear-gradient(180deg,var(--blue),var(--accent));border-radius:2px;}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:.5px;
+  background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.badge.live{background:rgba(255,68,68,.1);border-color:rgba(255,68,68,.3);color:var(--red);
+  animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* CATEGORY TABS */
+/* ─── CATEGORY TABS ─── */
 .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;}
-.cat-tab{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.cat-tab{background:var(--bg3);border:1px solid var(--border);border-radius:20px;
+  padding:6px 16px;font-size:12px;font-weight:600;color:var(--text2);
+  cursor:pointer;transition:all .2s;}
 .cat-tab:hover{border-color:var(--border2);color:var(--text);}
-.cat-tab.active{background:var(--accentglow);border-color:var(--accent);color:var(--accent);}
+.cat-tab.on{background:rgba(240,165,0,.1);border-color:var(--accent);color:var(--accent);}
 
-/* GRID */
-.skin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;}
+/* ─── GRID ─── */
+.skin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:16px;}
 
-/* SKIN CARD */
-.skin-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.25s;position:relative;}
-.skin-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.4);}
-.skin-card.my-bid{border-color:rgba(240,165,0,0.5);}
-.rarity-line{height:2px;width:100%;}
-.skin-img-wrap{background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);padding:1.25rem;display:flex;align-items:center;justify-content:center;height:130px;}
-.skin-img-wrap img{max-height:100px;max-width:100%;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5));transition:transform 0.3s;}
-.skin-card:hover .skin-img-wrap img{transform:scale(1.06) rotate(-2deg);}
-.skin-body{padding:12px 14px;}
-.skin-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;letter-spacing:0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.skin-wear{font-size:11px;color:var(--text3);margin-bottom:10px;}
-.skin-meta{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;}
-.price-block .plabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
-.price-block .amount{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--text);}
-.price-block .amount.green{color:var(--green);}
-.timer-block{text-align:right;}
-.timer-block .plabel{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
-.timer-chip{font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:1px;background:var(--greenglow);color:var(--green);border:1px solid rgba(38,217,127,0.2);}
-.timer-chip.ending{background:var(--redglow);color:var(--red);border-color:rgba(255,77,77,0.2);animation:pulse 1s infinite;}
-.timer-chip.ended{background:var(--bg3);color:var(--text3);border-color:var(--border);animation:none;}
+/* ─── SKIN CARD ─── */
+.skin-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:all .25s;cursor:pointer;user-select:none;}
+.skin-card:hover{border-color:var(--border2);transform:translateY(-3px);
+  box-shadow:0 14px 40px rgba(0,0,0,.5);}
+.skin-card.winning{border-color:rgba(0,230,118,.35);box-shadow:0 0 20px rgba(0,230,118,.07);}
+.rarity-stripe{height:2px;}
+.card-img{background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);
+  height:130px;display:flex;align-items:center;justify-content:center;padding:1.25rem;}
+.card-img img{max-height:100px;max-width:100%;object-fit:contain;
+  filter:drop-shadow(0 4px 14px rgba(0,0,0,.6));transition:transform .3s;}
+.skin-card:hover .card-img img{transform:scale(1.07) rotate(-2deg);}
+.card-body{padding:12px 14px;}
+.card-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
+.card-wear{font-size:11px;color:var(--text3);margin-bottom:10px;}
+.card-meta{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;}
+.bid-block .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.bid-block .amt{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;}
+.bid-block .amt.mine{color:var(--green);}
+.time-block{text-align:right;}
+.time-block .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px;}
+.timer{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;
+  padding:3px 9px;border-radius:5px;letter-spacing:1px;
+  background:rgba(0,230,118,.08);color:var(--green);border:1px solid rgba(0,230,118,.18);}
+.timer.warn{background:rgba(255,68,68,.1);color:var(--red);border-color:rgba(255,68,68,.2);animation:blink 1s infinite;}
+.timer.done{background:var(--bg3);color:var(--text3);border-color:var(--border);animation:none;}
 .top-bidder{font-size:11px;color:var(--text3);margin-bottom:8px;}
 .top-bidder span{color:var(--blue);}
 .bid-row{display:flex;gap:6px;}
-.bid-input{flex:1;min-width:0;height:34px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;padding:0 10px;font-family:'Inter',sans-serif;transition:all 0.2s;}
-.bid-input:focus{outline:none;border-color:var(--accent);}
-.bid-btn{height:34px;padding:0 12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0c10;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;white-space:nowrap;}
-.bid-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(240,165,0,0.4);}
-.bid-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;transform:none;box-shadow:none;}
+.bid-inp{flex:1;min-width:0;height:34px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:13px;padding:0 10px;font-family:'Inter',sans-serif;
+  transition:all .2s;}
+.bid-inp:focus{outline:none;border-color:var(--accent);}
+.bid-btn{height:34px;padding:0 13px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#060810;border:none;border-radius:8px;font-size:11px;font-weight:700;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all .2s;white-space:nowrap;}
+.bid-btn:hover{box-shadow:0 4px 14px rgba(240,165,0,.35);}
+.bid-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;box-shadow:none;}
+.ended-msg{text-align:center;font-size:11px;color:var(--text3);padding:7px 0;}
 
-/* INV CARD */
-.inv-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all 0.25s;}
-.inv-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 35px rgba(0,0,0,0.4);}
+/* ─── INVENTORY ─── */
+.inv-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:all .25s;}
+.inv-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.5);}
 .inv-body{padding:12px 14px;}
-.inv-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inv-name{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;}
 .inv-wear{font-size:11px;color:var(--text3);margin-bottom:8px;}
 .inv-price{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--accent);margin-bottom:10px;}
-.list-btn{width:100%;height:34px;background:transparent;border:1px solid var(--accent);color:var(--accent);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;}
-.list-btn:hover{background:var(--accent);color:#0a0c10;}
-.listed-chip{width:100%;text-align:center;font-size:11px;color:var(--green);background:var(--greenglow);border:1px solid rgba(38,217,127,0.2);border-radius:8px;padding:6px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;}
+.list-btn{width:100%;height:34px;background:transparent;border:1px solid var(--accent);
+  color:var(--accent);border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all .2s;}
+.list-btn:hover{background:var(--accent);color:#060810;}
+.listed-tag{width:100%;text-align:center;font-size:11px;color:var(--green);
+  background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.18);
+  border-radius:8px;padding:6px;font-family:'Rajdhani',sans-serif;letter-spacing:1px;}
 
-/* PROFILE CARD */
-.profile-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;position:relative;overflow:hidden;}
-.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--accent),var(--purple));}
-.profile-avatar-lg{width:72px;height:72px;border-radius:12px;border:2px solid var(--accent);object-fit:cover;}
-.profile-info .pname{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:1px;}
-.profile-info .pid{font-size:12px;color:var(--text3);margin-top:3px;font-family:monospace;}
-.profile-info .pstatus{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--green);}
-.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);}
+/* ─── PROFILE CARD ─── */
+.profile-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:1.5rem;display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;
+  position:relative;overflow:hidden;}
+.profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--accent),var(--purple));}
+.prof-avatar{width:72px;height:72px;border-radius:12px;border:2px solid var(--accent);object-fit:cover;}
+.prof-name{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;}
+.prof-id{font-size:11px;color:var(--text3);margin-top:2px;font-family:monospace;}
+.prof-status{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--green);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:300;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:2rem;width:420px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,0.6);transform:translateY(20px);transition:transform 0.25s;}
-.modal-overlay.open .modal{transform:translateY(0);}
-.modal h3{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:1px;margin-bottom:1.25rem;}
-.modal-preview{background:var(--bg3);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;border:1px solid var(--border);}
-.modal-preview img{width:90px;height:65px;object-fit:contain;}
-.modal-preview .mname{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
-.modal-preview .mwear{font-size:12px;color:var(--text3);margin-top:3px;}
-.modal-preview .mprice{font-size:14px;color:var(--accent);margin-top:5px;font-weight:600;}
-.modal label{font-size:11px;color:var(--text2);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
-.modal input{width:100%;height:44px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;padding:0 14px;font-family:'Inter',sans-serif;margin-bottom:1rem;transition:all 0.2s;}
-.modal input:focus{outline:none;border-color:var(--accent);}
-.modal-btns{display:flex;gap:8px;}
-.modal-confirm{flex:1;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0a0c10;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;}
-.modal-confirm:hover{box-shadow:0 6px 20px rgba(240,165,0,0.4);}
-.modal-cancel{flex:1;height:44px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;transition:all 0.2s;}
-.modal-cancel:hover{background:var(--bg3);}
+/* ─── MODALS ─── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);
+  z-index:300;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s;}
+.overlay.open{opacity:1;pointer-events:all;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;
+  padding:2rem;width:460px;max-width:94vw;max-height:92vh;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.7);transform:translateY(16px);transition:transform .25s;}
+.overlay.open .modal{transform:translateY(0);}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+.modal-head h3{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;}
+.close-btn{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;
+  line-height:1;transition:color .2s;}
+.close-btn:hover{color:var(--text);}
+.m-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;
+  display:block;margin-bottom:6px;}
+.m-input{width:100%;height:44px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;
+  font-family:'Inter',sans-serif;margin-bottom:12px;transition:all .2s;}
+.m-input:focus{outline:none;border-color:var(--accent);}
+.m-btns{display:flex;gap:8px;margin-top:4px;}
+.m-confirm{flex:1;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#060810;border:none;border-radius:10px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all .2s;}
+.m-confirm:hover{box-shadow:0 6px 20px rgba(240,165,0,.35);}
+.m-cancel{flex:1;height:44px;background:transparent;color:var(--text2);
+  border:1px solid var(--border);border-radius:10px;font-size:14px;cursor:pointer;transition:all .2s;}
+.m-cancel:hover{background:var(--bg3);}
 
-/* PAY MODAL */
-.card-icons{display:flex;gap:6px;margin-bottom:1rem;}
-.card-icon{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;color:var(--text2);}
-.card-icon.visa{color:#1a6fff;border-color:rgba(26,111,255,0.3);}
-.card-icon.mc{color:#ff5f00;border-color:rgba(255,95,0,0.3);}
-.card-field{margin-bottom:10px;}
-.card-field label{font-size:11px;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
-.card-field input{width:100%;height:42px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;padding:0 14px;font-family:'Inter',sans-serif;transition:all 0.2s;margin-bottom:0;}
-.card-field input:focus{outline:none;border-color:var(--blue);}
-.card-row-2{display:flex;gap:10px;}
-.card-row-2 .card-field{flex:1;}
-.pay-btn{width:100%;height:48px;background:linear-gradient(135deg,var(--green),#1aad60);border:none;border-radius:12px;color:#0a0c10;font-size:15px;font-weight:700;cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all 0.2s;margin-top:10px;}
-.pay-btn:hover{box-shadow:0 8px 25px rgba(38,217,127,0.4);transform:translateY(-1px);}
+/* ─── DETAIL MODAL ─── */
+.det-img-wrap{background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);
+  border-radius:14px;height:190px;display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.25rem;border:1px solid var(--border);position:relative;overflow:hidden;}
+.det-img-wrap img{max-height:155px;max-width:100%;object-fit:contain;
+  filter:drop-shadow(0 6px 20px rgba(0,0,0,.7));}
+.det-rarity{position:absolute;bottom:0;left:0;right:0;height:3px;}
+.det-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem;}
+.det-stat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.det-stat .dl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px;}
+.det-stat .dv{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;}
+.float-bar-wrap{margin-bottom:1rem;}
+.float-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;}
+.float-track{height:6px;background:linear-gradient(90deg,#00e676,#f0a500,#ff4444);
+  border-radius:3px;position:relative;}
+.float-marker{position:absolute;top:-4px;width:14px;height:14px;background:#fff;
+  border-radius:50%;transform:translateX(-50%);box-shadow:0 0 8px rgba(0,0,0,.5);transition:left .4s;}
+.current-bid-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;
+  padding:14px 16px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+.bid-history-wrap{margin-bottom:1rem;}
+.bid-history-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.bid-history-list{display:flex;flex-direction:column;gap:5px;max-height:160px;overflow-y:auto;}
+.bid-entry{display:flex;justify-content:space-between;align-items:center;
+  background:var(--bg3);border-radius:8px;padding:8px 12px;border:1px solid var(--border);}
+.det-bid-row{display:flex;gap:8px;}
+.det-bid-inp{flex:1;height:48px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:15px;padding:0 14px;font-family:'Inter',sans-serif;
+  transition:all .2s;}
+.det-bid-inp:focus{outline:none;border-color:var(--accent);}
+.det-bid-btn{height:48px;padding:0 24px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#060810;border:none;border-radius:10px;font-size:14px;font-weight:700;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all .2s;}
+.det-bid-btn:hover{box-shadow:0 6px 20px rgba(240,165,0,.35);}
+.det-bid-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;box-shadow:none;}
+
+/* ─── PAYMENT MODAL ─── */
+.card-brands{display:flex;gap:6px;margin-bottom:14px;}
+.brand{background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:4px 10px;font-size:11px;font-weight:700;}
+.brand.visa{color:#4a90ff;border-color:rgba(74,144,255,.3);}
+.brand.mc{color:#ff6600;border-color:rgba(255,102,0,.3);}
+.pay-submit{width:100%;height:50px;background:linear-gradient(135deg,var(--green),#00b860);
+  border:none;border-radius:12px;color:#060810;font-size:15px;font-weight:700;
+  cursor:pointer;font-family:'Rajdhani',sans-serif;letter-spacing:1px;transition:all .2s;margin-top:8px;}
+.pay-submit:hover{box-shadow:0 8px 24px rgba(0,230,118,.35);transform:translateY(-1px);}
 .secure-note{text-align:center;font-size:11px;color:var(--text3);margin-top:8px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:14px 20px;font-size:13px;color:var(--text);z-index:400;transform:translateY(80px);opacity:0;transition:all 0.3s;max-width:340px;box-shadow:0 8px 25px rgba(0,0,0,0.4);}
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;
+  background:var(--bg2);border:1px solid var(--border2);border-radius:12px;
+  padding:13px 20px;font-size:13px;color:var(--text);
+  transform:translateY(80px);opacity:0;transition:all .3s;
+  max-width:340px;box-shadow:0 8px 28px rgba(0,0,0,.5);}
 .toast.show{transform:translateY(0);opacity:1;}
-.toast.success{border-color:rgba(38,217,127,0.4);}
-.toast.error{border-color:rgba(255,77,77,0.4);}
+.toast.ok{border-color:rgba(0,230,118,.35);}
+.toast.err{border-color:rgba(255,68,68,.35);}
 
-/* LOADING / EMPTY */
-.loading{display:flex;align-items:center;justify-content:center;padding:4rem;gap:12px;color:var(--text2);font-size:14px;flex-direction:column;}
-.spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.empty-state{text-align:center;padding:4rem;color:var(--text3);border:1px dashed var(--border);border-radius:16px;}
-.empty-state .icon{font-size:48px;margin-bottom:1rem;opacity:0.3;}
+/* ─── MISC ─── */
+.loading{display:flex;align-items:center;justify-content:center;padding:4rem;gap:12px;
+  color:var(--text2);font-size:14px;flex-direction:column;}
+.spin{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);
+  border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:4rem;color:var(--text3);border:1px dashed var(--border);border-radius:16px;}
+.empty .ei{font-size:48px;margin-bottom:1rem;opacity:.25;}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div class="login-page" id="login-page">
-  <div class="big-logo">CS2VAULT</div>
-  <div class="login-sub">Profesyonel CS2 Skin Açık Artırma Platformu</div>
+<div class="login-overlay" id="loginPage">
+  <div class="login-brand">
+    <div class="big">CS2VAULT</div>
+    <div class="sub">PROFESYONEl CS2 SKIN AÇIK ARTIRMA PLATFORMU</div>
+  </div>
   <div class="login-card">
     <h2>GİRİŞ YAP</h2>
-    <p>Steam ID'nizi girerek envanterinize erişin ve açık artırmalara katılın.</p>
-    <input class="id-input" id="steam-id-input" type="text" placeholder="Steam ID (örn: 76561198363027411)">
-    <button class="login-btn" id="login-btn-el" onclick="doLogin()">GİRİŞ YAP →</button>
-    <div class="login-note">🔒 Yalnızca herkese açık profil ve envanter bilgileri kullanılır.</div>
+    <p>Steam ID'nizi girerek envanterinize erişin ve açık artırmalara katılın. Şifreniz hiçbir zaman istenmez.</p>
+    <label class="field-label">Steam ID</label>
+    <input class="text-input" id="steamIdInput" type="text" placeholder="76561198363027411">
+    <button class="primary-btn" id="loginBtn" onclick="doLogin()">GİRİŞ YAP →</button>
+    <div class="login-note">🔒 Yalnızca herkese açık profil ve envanter bilgileri kullanılır</div>
   </div>
 </div>
 
 <!-- NAVBAR -->
-<nav class="navbar" id="main-navbar" style="display:none;">
+<nav class="navbar" id="navbar" style="display:none">
   <div class="logo">
-    <div class="logo-dot"></div>
-    <span class="cs">CS2</span><span class="vault">VAULT</span>
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text"><span class="cs">CS2</span><span class="vault">VAULT</span></div>
   </div>
   <div class="nav-links">
-    <button class="nav-btn active" onclick="navigate('market',this)">Pazar</button>
-    <button class="nav-btn" onclick="navigate('my-auctions',this)">Açık Artırmalarım</button>
-    <button class="nav-btn" onclick="navigate('inventory',this)">Envanter</button>
+    <button class="nav-btn active" onclick="goPage('market',this)">Pazar</button>
+    <button class="nav-btn" onclick="goPage('myauctions',this)">Açık Artırmalarım</button>
+    <button class="nav-btn" onclick="goPage('inventory',this)">Envanter</button>
   </div>
   <div class="nav-right">
-    <div class="balance-chip" id="balance-display">$1,000.00</div>
-    <div class="user-chip">
-      <img class="user-avatar" id="nav-avatar" src="" alt="">
-      <span class="user-name" id="nav-name">...</span>
+    <div class="bal-chip" id="balDisplay">$1,000.00</div>
+    <div class="user-pill">
+      <img class="user-avatar" id="navAvatar" src="" alt="">
+      <span class="user-name" id="navName">...</span>
     </div>
     <button class="logout-btn" onclick="doLogout()">Çıkış</button>
   </div>
 </nav>
 
-<div class="main" id="main-content" style="display:none;">
+<div class="main" id="mainContent" style="display:none">
 
-  <!-- MARKET -->
-  <div id="page-market" class="page active">
-    <div class="stats-bar">
-      <div class="stat-card"><div class="stat-label">Aktif Artırma</div><div class="stat-value blue" id="s-active">0</div></div>
-      <div class="stat-card"><div class="stat-label">Toplam Teklif</div><div class="stat-value accent" id="s-bids">0</div></div>
-      <div class="stat-card"><div class="stat-label">En Yüksek Değer</div><div class="stat-value green" id="s-top">$0</div></div>
-      <div class="stat-card"><div class="stat-label">Bakiye</div><div class="stat-value accent">$1,000</div></div>
+  <!-- MARKET PAGE -->
+  <div class="page active" id="page-market">
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-lbl">Aktif Artırma</div><div class="stat-val val-blue" id="sActive">0</div></div>
+      <div class="stat-box"><div class="stat-lbl">Toplam Teklif</div><div class="stat-val val-accent" id="sBids">0</div></div>
+      <div class="stat-box"><div class="stat-lbl">En Yüksek Değer</div><div class="stat-val val-green" id="sTop">$0</div></div>
+      <div class="stat-box"><div class="stat-lbl">Bakiye</div><div class="stat-val val-accent" id="sBal">$1,000</div></div>
     </div>
-    <div class="section-header">
-      <div class="section-title">Herkese Açık Açık Artırmalar <span class="badge live">● CANLI</span></div>
+    <div class="sec-head">
+      <div class="sec-title">Herkese Açık Açık Artırmalar <span class="badge live">● CANLI</span></div>
     </div>
-    <div class="cat-tabs" id="market-cats"></div>
-    <div class="skin-grid" id="market-grid">
-      <div class="loading"><div class="spinner"></div>Steam Market'ten yükleniyor...</div>
+    <div class="cat-tabs" id="marketCats"></div>
+    <div class="skin-grid" id="marketGrid">
+      <div class="loading"><div class="spin"></div>Steam Market'ten yükleniyor...</div>
     </div>
   </div>
 
-  <!-- MY AUCTIONS -->
-  <div id="page-my-auctions" class="page">
-    <div class="section-header"><div class="section-title">Açık Artırmalarım</div></div>
-    <div id="my-auctions-content">
-      <div class="empty-state"><div class="icon">🎯</div><div>Henüz açık artırman yok</div></div>
+  <!-- MY AUCTIONS PAGE -->
+  <div class="page" id="page-myauctions">
+    <div class="sec-head"><div class="sec-title">Açık Artırmalarım</div></div>
+    <div id="myAuctionsContent">
+      <div class="empty"><div class="ei">🎯</div><div>Henüz açık artırman yok</div></div>
     </div>
   </div>
 
-  <!-- INVENTORY -->
-  <div id="page-inventory" class="page">
-    <div id="profile-area"></div>
-    <div class="section-header">
-      <div class="section-title">Envanter <span class="badge" id="inv-count">...</span></div>
+  <!-- INVENTORY PAGE -->
+  <div class="page" id="page-inventory">
+    <div id="profileArea"></div>
+    <div class="sec-head">
+      <div class="sec-title">Envanter <span class="badge" id="invCount">...</span></div>
     </div>
-    <div class="cat-tabs" id="inv-cats"></div>
-    <div class="skin-grid" id="inventory-grid">
-      <div class="loading"><div class="spinner"></div>Envanter yükleniyor...</div>
+    <div class="cat-tabs" id="invCats"></div>
+    <div class="skin-grid" id="invGrid">
+      <div class="loading"><div class="spin"></div>Envanter yükleniyor...</div>
     </div>
   </div>
+
 </div>
 
-
 <!-- SKIN DETAIL MODAL -->
-<div class="modal-overlay" id="detail-modal" onclick="if(event.target===this)closeDetailModal()">
-  <div class="modal" style="max-width:580px;width:95vw;max-height:90vh;overflow-y:auto;">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem;">
+<div class="overlay" id="detailOverlay" onclick="if(event.target===this)closeDet()">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-head">
+      <h3 id="detName"></h3>
+      <button class="close-btn" onclick="closeDet()">✕</button>
+    </div>
+    <div class="det-img-wrap">
+      <img id="detImg" src="" alt="">
+      <div class="det-rarity" id="detRarity"></div>
+    </div>
+    <div class="det-stats">
+      <div class="det-stat"><div class="dl">Float</div><div class="dv" id="detFloat" style="color:var(--blue)"></div></div>
+      <div class="det-stat"><div class="dl">Piyasa</div><div class="dv" id="detMarket" style="color:var(--accent)"></div></div>
+      <div class="det-stat"><div class="dl">Kalan Süre</div><div class="dv" id="detTimer" style="color:var(--green)"></div></div>
+    </div>
+    <div class="float-bar-wrap">
+      <div class="float-labels"><span>FN</span><span>MW</span><span>FT</span><span>WW</span><span>BS</span></div>
+      <div class="float-track"><div class="float-marker" id="detFloatMark"></div></div>
+    </div>
+    <div class="current-bid-box">
       <div>
-        <h3 id="dm-name" style="font-size:18px;letter-spacing:0.5px;margin-bottom:4px;"></h3>
-        <div id="dm-wear-badge" style="font-size:11px;color:var(--text3);"></div>
-      </div>
-      <button onclick="closeDetailModal()" style="background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;line-height:1;">✕</button>
-    </div>
-
-    <!-- Big Image -->
-    <div style="background:radial-gradient(ellipse at center,var(--bg3) 0%,var(--bg) 100%);border-radius:14px;padding:2rem;display:flex;align-items:center;justify-content:center;height:200px;margin-bottom:1.25rem;border:1px solid var(--border);position:relative;">
-      <img id="dm-img" src="" alt="" style="max-height:160px;max-width:100%;object-fit:contain;filter:drop-shadow(0 6px 20px rgba(0,0,0,0.7));">
-      <div id="dm-rarity-bar" style="position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 14px 14px;"></div>
-    </div>
-
-    <!-- Stats Grid -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem;">
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Float</div>
-        <div id="dm-float" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--blue);"></div>
-      </div>
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Piyasa</div>
-        <div id="dm-market" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--accent);"></div>
-      </div>
-      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px 12px;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Kalan Süre</div>
-        <div id="dm-timer" style="font-size:15px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--green);"></div>
-      </div>
-    </div>
-
-    <!-- Float Bar -->
-    <div style="margin-bottom:1.25rem;">
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px;">
-        <span>FN</span><span>MW</span><span>FT</span><span>WW</span><span>BS</span>
-      </div>
-      <div style="height:6px;background:linear-gradient(90deg,#26d97f,#f0a500,#ff4d4d);border-radius:3px;position:relative;">
-        <div id="dm-float-marker" style="position:absolute;top:-3px;width:12px;height:12px;background:white;border-radius:50%;transform:translateX(-50%);box-shadow:0 0 6px rgba(0,0,0,0.5);transition:left 0.3s;"></div>
-      </div>
-    </div>
-
-    <!-- Current Bid -->
-    <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Güncel En Yüksek Teklif</div>
-        <div id="dm-current-bid" style="font-size:26px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--green);"></div>
-        <div id="dm-top-bidder" style="font-size:12px;color:var(--blue);margin-top:2px;"></div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Güncel En Yüksek Teklif</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--green);" id="detBid"></div>
+        <div style="font-size:12px;color:var(--blue);margin-top:2px;" id="detBidder"></div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Toplam Teklif</div>
-        <div id="dm-bid-count" style="font-size:22px;font-weight:700;font-family:'Rajdhani',sans-serif;color:var(--text);"></div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">Toplam Teklif</div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;" id="detBidCount"></div>
       </div>
     </div>
-
-    <!-- Bid History -->
-    <div style="margin-bottom:1.25rem;">
-      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Teklif Geçmişi</div>
-      <div id="dm-bid-history" style="display:flex;flex-direction:column;gap:6px;max-height:150px;overflow-y:auto;"></div>
+    <div class="bid-history-wrap">
+      <div class="bid-history-title">Teklif Geçmişi</div>
+      <div class="bid-history-list" id="detHistory"></div>
     </div>
-
-    <!-- Place Bid -->
-    <div id="dm-bid-section">
-      <div style="display:flex;gap:8px;">
-        <input class="bid-input" id="dm-bid-inp" type="number" step="0.01" placeholder="Teklif girin..." style="flex:1;height:48px;font-size:15px;">
-        <button class="bid-btn" id="dm-bid-btn" onclick="placeDetailBid()" style="height:48px;padding:0 24px;font-size:14px;">TEKLİF VER</button>
+    <div id="detBidSection">
+      <div class="det-bid-row">
+        <input class="det-bid-inp" id="detBidInp" type="number" step="0.01" placeholder="Teklif girin...">
+        <button class="det-bid-btn" id="detBidBtn" onclick="submitDetailBid()">TEKLİF VER</button>
       </div>
-      <div style="font-size:11px;color:var(--text3);margin-top:6px;text-align:center;">Bakiyenizden anında düşülür</div>
+      <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:6px;">Teklif verilince bakiyenizden anında düşer</div>
     </div>
   </div>
 </div>
 
 <!-- LIST MODAL -->
-<div class="modal-overlay" id="list-modal">
+<div class="overlay" id="listOverlay" onclick="if(event.target===this)closeList()">
   <div class="modal">
-    <h3>🏷️ Açık Artırmaya Çıkar</h3>
-    <div class="modal-preview">
-      <img id="lm-img" src="" alt="">
-      <div><div class="mname" id="lm-name"></div><div class="mwear" id="lm-wear"></div><div class="mprice" id="lm-price"></div></div>
+    <div class="modal-head">
+      <h3>🏷️ Açık Artırmaya Çıkar</h3>
+      <button class="close-btn" onclick="closeList()">✕</button>
     </div>
-    <label>Başlangıç Fiyatı ($)</label>
-    <input type="number" id="lm-start" placeholder="0.00" min="0.01" step="0.01">
-    <label>Süre (Saat)</label>
-    <input type="number" id="lm-dur" placeholder="24" min="1" max="72" value="24">
-    <div class="modal-btns">
-      <button class="modal-cancel" onclick="closeListModal()">İptal</button>
-      <button class="modal-confirm" onclick="confirmList()">Listele ✓</button>
+    <div style="background:var(--bg3);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;border:1px solid var(--border);">
+      <img id="listImg" src="" alt="" style="width:90px;height:65px;object-fit:contain;">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;" id="listName"></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;" id="listWear"></div>
+        <div style="font-size:14px;color:var(--accent);margin-top:5px;font-weight:600;" id="listPrice"></div>
+      </div>
+    </div>
+    <label class="m-label">Başlangıç Fiyatı ($)</label>
+    <input class="m-input" type="number" id="listStartPrice" placeholder="0.00" min="0.01" step="0.01">
+    <label class="m-label">Süre (Saat)</label>
+    <input class="m-input" type="number" id="listDuration" placeholder="24" min="1" max="72" value="24">
+    <div class="m-btns">
+      <button class="m-cancel" onclick="closeList()">İptal</button>
+      <button class="m-confirm" onclick="confirmList()">Listele ✓</button>
     </div>
   </div>
 </div>
 
 <!-- PAY MODAL -->
-<div class="modal-overlay" id="pay-modal">
+<div class="overlay" id="payOverlay" onclick="if(event.target===this)closePay()">
   <div class="modal">
-    <h3>💳 Ödeme</h3>
-    <div class="modal-preview">
-      <img id="pm-img" src="" alt="">
-      <div><div class="mname" id="pm-name"></div><div class="mwear" id="pm-wear"></div><div class="mprice" id="pm-amt" style="color:var(--green);font-size:20px;"></div></div>
+    <div class="modal-head">
+      <h3>💳 Ödeme</h3>
+      <button class="close-btn" onclick="closePay()">✕</button>
     </div>
-    <div class="card-icons">
-      <div class="card-icon visa">VISA</div>
-      <div class="card-icon mc">MC</div>
-      <div class="card-icon">AMEX</div>
+    <div style="background:var(--bg3);border-radius:12px;padding:1rem;display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;border:1px solid var(--border);">
+      <img id="payImg" src="" alt="" style="width:90px;height:65px;object-fit:contain;">
+      <div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;" id="payName"></div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;" id="payWear"></div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--green);margin-top:5px;" id="payAmt"></div>
+      </div>
     </div>
-    <div class="card-field"><label>Kart Üzerindeki İsim</label><input type="text" id="pm-name-inp" placeholder="AD SOYAD"></div>
-    <div class="card-field"><label>Kart Numarası</label><input type="text" id="pm-card" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)"></div>
-    <div class="card-row-2">
-      <div class="card-field"><label>Son Kullanma</label><input type="text" id="pm-exp" placeholder="MM/YY" maxlength="5" oninput="fmtExp(this)"></div>
-      <div class="card-field"><label>CVV</label><input type="text" id="pm-cvv" placeholder="•••" maxlength="3"></div>
+    <div class="card-brands">
+      <div class="brand visa">VISA</div>
+      <div class="brand mc">MC</div>
+      <div class="brand">AMEX</div>
     </div>
-    <button class="pay-btn" onclick="confirmPay()">🔒 ÖDEMEYİ TAMAMLA</button>
-    <div class="secure-note">🔒 256-bit SSL şifrelemesi ile güvende</div>
-    <button class="modal-cancel" style="width:100%;margin-top:10px;" onclick="closePayModal()">İptal</button>
+    <label class="m-label">Kart Üzerindeki İsim</label>
+    <input class="m-input" type="text" id="payCardName" placeholder="AD SOYAD">
+    <label class="m-label">Kart Numarası</label>
+    <input class="m-input" type="text" id="payCardNum" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCardNum(this)">
+    <div class="two-col">
+      <div>
+        <label class="m-label">Son Kullanma</label>
+        <input class="m-input" type="text" id="payExp" placeholder="MM/YY" maxlength="5" oninput="fmtExpiry(this)">
+      </div>
+      <div>
+        <label class="m-label">CVV</label>
+        <input class="m-input" type="text" id="payCvv" placeholder="•••" maxlength="3">
+      </div>
+    </div>
+    <button class="pay-submit" onclick="confirmPay()">🔒 ÖDEMEYİ TAMAMLA</button>
+    <div class="secure-note">🔒 256-bit SSL şifrelemesi ile korunmaktadır</div>
+    <button class="m-cancel" style="width:100%;margin-top:10px;" onclick="closePay()">İptal</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const STEAM_API_KEY = 'F63CD7ADEB27F331C560DAA191244CC0';
+// ═══════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════
 const API = window.location.origin;
 
-// Popular CS2 market items by category
-const ALL_MARKET_ITEMS = {
+const ALL_SKINS = {
   'Bıçaklar': [
     'Karambit | Doppler (Factory New)',
     'Butterfly Knife | Fade (Factory New)',
@@ -398,11 +500,9 @@ const ALL_MARKET_ITEMS = {
     'Ursus Knife | Fade (Factory New)',
     'Karambit | Fade (Factory New)',
     'M9 Bayonet | Doppler (Factory New)',
-    'Butterfly Knife | Tiger Tooth (Factory New)',
     'Flip Knife | Fade (Factory New)',
     'Bayonet | Doppler (Factory New)',
     'Huntsman Knife | Doppler (Factory New)',
-    'Gut Knife | Marble Fade (Factory New)',
     'Shadow Daggers | Doppler (Factory New)'
   ],
   'Eldivenler': [
@@ -414,8 +514,7 @@ const ALL_MARKET_ITEMS = {
     'Bloodhound Gloves | Charred (Field-Tested)',
     'Sport Gloves | Vice (Field-Tested)',
     'Moto Gloves | POW! (Field-Tested)',
-    'Specialist Gloves | Fade (Minimal Wear)',
-    'Hand Wraps | Overprint (Field-Tested)'
+    'Specialist Gloves | Fade (Minimal Wear)'
   ],
   'Tüfekler': [
     'AK-47 | Case Hardened (Field-Tested)',
@@ -427,15 +526,11 @@ const ALL_MARKET_ITEMS = {
     'M4A4 | Poseidon (Field-Tested)',
     'M4A1-S | Printstream (Minimal Wear)',
     'M4A1-S | Vaporwave (Factory New)',
-    'AK-47 | Panthera onca (Minimal Wear)',
     'AK-47 | Asiimov (Field-Tested)',
     'AWP | Asiimov (Field-Tested)',
     'AK-47 | Vulcan (Factory New)',
     'AWP | Lightning Strike (Factory New)',
-    'M4A1-S | Knight (Factory New)',
-    'AK-47 | Fire Serpent (Field-Tested)',
-    'AWP | Medusa (Field-Tested)',
-    'M4A4 | Howl (Field-Tested)'
+    'AK-47 | Fire Serpent (Field-Tested)'
   ],
   'Tabancalar': [
     'USP-S | Kill Confirmed (Field-Tested)',
@@ -443,682 +538,528 @@ const ALL_MARKET_ITEMS = {
     'Desert Eagle | Blaze (Factory New)',
     'Desert Eagle | Printstream (Minimal Wear)',
     'Glock-18 | Fade (Factory New)',
-    'P250 | See Ya Later (Factory New)',
     'Desert Eagle | Golden Koi (Factory New)',
     'USP-S | Neo-Noir (Factory New)',
-    'Glock-18 | Gamma Doppler (Factory New)',
-    'Desert Eagle | Hand Cannon (Factory New)'
+    'Glock-18 | Gamma Doppler (Factory New)'
   ]
 };
 
-function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
-function getRandomItems() {
+const BOTS = ['xSniper99','ProPlayer','SkinHunter','CsKing','TradeGod','VaultBot','Ace_CS'];
+const RARITY = {
+  'Bıçaklar': '#e4ae39', 'Eldivenler': '#eb4b4b',
+  'Tüfekler': '#8847ff', 'Tabancalar': '#4b69ff'
+};
+const WEAR_FLOAT = {
+  'Factory New':[0.00,0.07], 'Minimal Wear':[0.07,0.15],
+  'Field-Tested':[0.15,0.38], 'Well-Worn':[0.38,0.45], 'Battle-Scarred':[0.45,1.00]
+};
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let userBalance = 1000;
+let totalBids = 0;
+let marketSkins = [];    // array of skin objects
+let invSkins = [];
+let myAuctions = [];
+let profile = null;
+let listSkin = null;
+let paySkin = null;
+let activeCat = 'Tümü';
+let invCat = 'Tümü';
+let detSkin = null;
+let detTimerInt = null;
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const fmt$ = n => '$' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+function fmtTime(s) {
+  if(s <= 0) return 'BİTTİ';
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  if(h > 0) return h + 's ' + String(m).padStart(2,'0') + 'd';
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+function toast(msg, type='') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type === 'err' ? 'err' : type === 'ok' ? 'ok' : '');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.className = 'toast', 2800);
+}
+function updateBalance() {
+  const s = fmt$(userBalance);
+  $('balDisplay').textContent = s;
+  $('sBal').textContent = '$' + Math.floor(userBalance).toLocaleString();
+  $('balDisplay').classList.add('flash');
+  setTimeout(() => $('balDisplay').classList.remove('flash'), 600);
+}
+function getFloat(wear) {
+  const w = wear || 'Field-Tested';
+  const key = Object.keys(WEAR_FLOAT).find(k => w.includes(k.split(' ')[0])) || 'Field-Tested';
+  const [mn,mx] = WEAR_FLOAT[key];
+  return (Math.random()*(mx-mn)+mn).toFixed(8);
+}
+function shuffle(a) { return [...a].sort(() => Math.random() - 0.5); }
+
+// ═══════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════
+async function doLogin() {
+  const id = $('steamIdInput').value.trim();
+  if(!id) { toast('Steam ID girin!','err'); return; }
+  const btn = $('loginBtn');
+  btn.disabled = true; btn.textContent = 'Yükleniyor...';
+  try {
+    const r = await fetch(`${API}/api/profile/${id}`);
+    const p = await r.json();
+    if(p.error) throw new Error(p.error);
+    profile = p;
+  } catch(e) {
+    profile = { steamid: id, name: 'Steam Kullanıcısı', avatar: '', status: 'online' };
+  }
+  $('loginPage').classList.add('gone');
+  $('navbar').style.display = 'flex';
+  $('mainContent').style.display = 'block';
+  $('navAvatar').src = profile.avatar;
+  $('navName').textContent = profile.name;
+  loadMarket();
+  loadInventory(profile.steamid);
+}
+function doLogout() { location.reload(); }
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function goPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  $('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  if(name === 'myauctions') renderMyAuctions();
+  if(name === 'inventory') renderInventory();
+}
+
+// ═══════════════════════════════════════════
+// MARKET
+// ═══════════════════════════════════════════
+function pickSkins() {
   const result = {};
-  for(const [cat, items] of Object.entries(ALL_MARKET_ITEMS)) {
-    const n = Math.max(4, Math.floor(items.length * 0.6));
+  for(const [cat, items] of Object.entries(ALL_SKINS)) {
+    const n = Math.max(4, Math.floor(items.length * 0.65));
     result[cat] = shuffle(items).slice(0, n);
   }
   return result;
 }
-const MARKET_ITEMS = getRandomItems();
 
-let steamProfile = null;
-let inventorySkins = [];
-let myAuctions = [];
-let userBalance = 1000;
-let totalBids = 0;
-let marketSkins = [];
-let listingItem = null;
-let payItem = null;
-let currentMarketCat = 'Tümü';
-let currentInvCat = 'Tümü';
-
-
-function updateBalance() {
-  updateBalance();
-  const sb = document.getElementById('stat-balance');
-  if(sb) sb.textContent = fmtMoney(userBalance);
-}
-
-function fmtMoney(n) {
-  if(!n && n!==0) return '$0.00';
-  return '$' + parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-function fmtTime(s) {
-  if(s<=0) return 'BİTTİ';
-  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;
-  if(h>0) return h+'s '+String(m).padStart(2,'0')+'d';
-  return String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');
-}
-function showToast(msg, type='') {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast show '+type;
-  clearTimeout(t._t); t._t=setTimeout(()=>t.className='toast',2800);
-}
-function rarityColor(name) {
-  if(!name) return '#aaa';
-  const n=name.toLowerCase();
-  if(n.includes('contraband')) return '#e4ae39';
-  if(n.includes('covert')||n.includes('ancient')) return '#eb4b4b';
-  if(n.includes('classified')||n.includes('legendary')) return '#8847ff';
-  if(n.includes('restricted')||n.includes('epic')) return '#4b69ff';
-  if(n.includes('mil-spec')||n.includes('rare')) return '#5e98d9';
-  return '#aaa';
-}
-
-async function doLogin() {
-  const id = document.getElementById('steam-id-input').value.trim();
-  if(!id) { showToast('Steam ID girin!','error'); return; }
-  document.getElementById('login-btn-el').textContent = 'Yükleniyor...';
-
-  try {
-    // Fetch profile via corsproxy.io
-    const r = await fetch(`${API}/api/profile/${id}`);
-    const player = await r.json();
-    if(player.error) throw new Error(player.error);
-    steamProfile = {
-      id,
-      name: player.name,
-      avatar: player.avatar,
-      status: player.status
-    };
-  } catch(e) {
-    steamProfile = { id, name: 'Steam Kullanıcısı', avatar: '', status: 'online' };
-  }
-
-  // Load market skins
-  loadMarketSkins();
-
-  // Load inventory
-  loadInventory(steamProfile.id);
-
-  showMainApp();
-}
-
-function showMainApp() {
-  document.getElementById('login-page').classList.add('hidden');
-  document.getElementById('main-navbar').style.display = 'flex';
-  document.getElementById('main-content').style.display = 'block';
-  document.getElementById('nav-avatar').src = steamProfile.avatar;
-  document.getElementById('nav-name').textContent = steamProfile.name;
-}
-
-function doLogout() {
-  location.reload();
-}
-
-function navigate(page, btn) {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ===== MARKET =====
-const SKIN_HASHES = {"Karambit | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uMmoK0keTLf7-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Butterfly Knife | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2r_AppWn3ge3-lc5YDv3do7fSg", "M9 Bayonet | Crimson Web (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uMmoK0keLLf7-AxjsDucFy2r_AppSl0lW3-lc5YDv3do7fSg", "Karambit | Tiger Tooth (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmJbkfb-AxjsDucFy2r_AppSl0lW3-lc5YDv3do7fSg", "Butterfly Knife | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Stiletto Knife | Marble Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b-bptSk2VC8-VM9ZQ", "Talon Knife | Doppler (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Ursus Knife | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmPbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "Sport Gloves | Pandora's Box (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Specialist Gloves | Crimson Kimono (Well-Worn)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Hand Wraps | Cobalt Skulls (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Moto Gloves | Spearmint (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Driver Gloves | King Snake (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "Bloodhound Gloves | Charred (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "AK-47 | Case Hardened (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2Khe6hZmyBxjkG68F3TuR8su6YVjt_VNpNjv6dYOVIg", "AK-47 | Wild Lotus (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "AK-47 | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yBxjkG68F3TuR8su6YVjt_VNpNjv6dYOVIg", "AWP | Dragon Lore (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2PmOywg76KxDgDucEl4r-V8d-higFk-VQ8YA", "AWP | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "AWP | Containment Breach (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "M4A4 | Poseidon (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KAh4h6bYdC9hu4uKxZKMmJbkfb-AxjsDucFy2b2bptSk2VC8-VM9ZQ", "M4A1-S | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "M4A1-S | Vaporwave (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "AK-47 | Panthera onca (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy2b2bptSk2VC8-VM9ZQ", "USP-S | Kill Confirmed (Field-Tested)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "USP-S | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "Desert Eagle | Blaze (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY2Khe6hZmyBxjkG68Fy3r2Q9Nqk0Vs", "Desert Eagle | Printstream (Minimal Wear)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMn4eKhc-hZ2yC1T8G7cEo3r6Qpt6l2lKx_1c5", "Glock-18 | Fade (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc", "P250 | See Ya Later (Factory New)": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc"};
-
-function getSkinImg(name) {
-  const hash = SKIN_HASHES[name];
-  if(hash) return `https://community.fastly.steamstatic.com/economy/image/${hash}/360fx360f`;
-  // fallback: use market listing image
-  return `https://community.fastly.steamstatic.com/economy/image/class/730/0/360fx360f`;
-}
-
-async function loadMarketSkins() {
+async function loadMarket() {
   marketSkins = [];
-  const allItems = [];
-  for(const [cat, items] of Object.entries(MARKET_ITEMS)) {
-    for(const item of items) {
-      allItems.push({ name: item, cat });
-    }
-  }
-
-  // Render cats
+  $('marketGrid').innerHTML = '<div class="loading"><div class="spin"></div>Steam Market\'ten yükleniyor...</div>';
   renderMarketCats();
-  renderMarketGrid('Tümü');
 
-  // Fetch prices in batches
-  let loaded = 0;
-  for(const item of allItems) {
-    try {
-      // Fetch price + image hash from market in one call
-      const [priceResp, itemResp] = await Promise.all([
-        fetch(`${API}/api/price?name=${encodeURIComponent(item.name)}`).catch(()=>null),
-        fetch(`${API}/api/iteminfo?name=${encodeURIComponent(item.name)}`).catch(()=>null)
-      ]);
-      const data = priceResp ? await priceResp.json().catch(()=>({})) : {};
-      const itemInfo = itemResp ? await itemResp.json().catch(()=>({})) : {};
-      const imgUrl = itemInfo.img || '';
-      
-      const skinData = {
-        id: Date.now() + Math.random(),
-        name: item.name,
-        cat: item.cat,
-        price: data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 0,
-        priceRaw: data.lowest_price || 'N/A',
-        volume: data.volume || '0',
-        img: imgUrl,
-        imgAlt: `https://steamcommunity.com/market/listings/730/${encodeURIComponent(item.name)}`,
-        rarity: item.cat === 'Bıçaklar' ? '#e4ae39' : item.cat === 'Eldivenler' ? '#eb4b4b' : '#8847ff',
-        wear: item.name.match(/\((.*?)\)/)?.[1] || '',
-        currentBid: data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 10,
-        topBidder: null,
-        timeLeft: Math.floor(Math.random()*7200)+600
-      };
-      marketSkins.push(skinData);
-      loaded++;
-      // Append card directly without re-rendering entire grid
-      appendMarketCard(skinData);
-      updateStats();
-      await new Promise(r=>setTimeout(r,500)); // rate limit
-    } catch(e) {
-      // skip failed
+  const selected = pickSkins();
+  for(const [cat, items] of Object.entries(selected)) {
+    for(const name of items) {
+      try {
+        const r = await fetch(`${API}/api/market?name=${encodeURIComponent(name)}`);
+        const d = await r.json();
+        const wear = (name.match(/\((.*?)\)$/) || [])[1] || '';
+        const skin = {
+          idx: marketSkins.length,
+          name,
+          cat,
+          wear,
+          rarity: RARITY[cat] || '#8847ff',
+          price: d.price ? parseFloat(d.price.replace(/[^0-9.]/g,'')) : 10,
+          priceRaw: d.price || 'N/A',
+          volume: d.volume || '0',
+          img: d.img || '',
+          currentBid: d.price ? parseFloat(d.price.replace(/[^0-9.]/g,'')) : 10,
+          topBidder: null,
+          timeLeft: Math.floor(Math.random()*7200) + 600,
+          bidHistory: [],
+          _float: null
+        };
+        marketSkins.push(skin);
+        appendCard(skin);
+        updateMarketStats();
+        await new Promise(r => setTimeout(r, 380));
+      } catch(e) { /* skip */ }
     }
   }
-  renderMarketGrid(currentMarketCat);
-  updateStats();
-}
-
-function getMarketImg(name) {
-  // Use Steam CDN image lookup
-  return `https://community.fastly.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I4SoRQolBnmRiSixsH4gJUAV3V5f22BJNNnVYKiCBQv2S0M7dVVEsIupWifl8KA9-BXEYa4n8lIGMnY-IkMynha_UxjZSucFy0rmU8Nqk3gO2_VBpMDc/200fx200f`;
 }
 
 function renderMarketCats() {
-  const cats = ['Tümü', ...Object.keys(MARKET_ITEMS)];
-  document.getElementById('market-cats').innerHTML = cats.map(c =>
-    `<div class="cat-tab${c==='Tümü'?' active':''}" onclick="setMarketCat('${c}',this)">${c}</div>`
+  const cats = ['Tümü', ...Object.keys(ALL_SKINS)];
+  $('marketCats').innerHTML = cats.map(c =>
+    `<div class="cat-tab${c===activeCat?' on':''}" onclick="setMarketCat('${c}',this)">${c}</div>`
   ).join('');
 }
-
 function setMarketCat(cat, el) {
-  currentMarketCat = cat;
-  document.querySelectorAll('#market-cats .cat-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderMarketGrid(cat);
+  activeCat = cat;
+  document.querySelectorAll('#marketCats .cat-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  $('marketGrid').innerHTML = '';
+  marketSkins.filter(s => cat==='Tümü' || s.cat===cat).forEach(appendCard);
 }
 
-function renderMarketGrid(cat) {
-  const grid = document.getElementById('market-grid');
-  const skins = cat === 'Tümü' ? marketSkins : marketSkins.filter(s=>s.cat===cat);
-
-  if(marketSkins.length === 0) {
-    grid.innerHTML = '<div class="loading"><div class="spinner"></div>Steam Market\'ten yükleniyor...</div>';
-    return;
-  }
-  if(skins.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><div>Bu kategoride henüz skin yok</div></div>';
-    return;
-  }
-
-  grid.innerHTML = skins.map(s => {
-    const ended=s.timeLeft<=0, ending=s.timeLeft>0&&s.timeLeft<600;
-    const isMine=s.topBidder==='Sen';
-    return `<div class="skin-card${isMine?' my-bid':''}">
-      <div class="rarity-line" style="background:${s.rarity}"></div>
-      <div class="skin-img-wrap">
-        <img src="${s.img}" onerror="this.style.opacity='0.2'" alt="${s.name}">
-      </div>
-      <div class="skin-body">
-        <div class="skin-name" title="${s.name}">${s.name.replace(/\s*\(.*?\)\s*/,'')}</div>
-        <div class="skin-wear">${s.cat} · ${s.wear}</div>
-        <div class="skin-meta">
-          <div class="price-block">
-            <div class="plabel">En Yüksek Teklif</div>
-            <div class="amount${isMine?' green':''}" id="mamt-${s.id}">${fmtMoney(s.currentBid)}</div>
-          </div>
-          <div class="timer-block">
-            <div class="plabel">Kalan</div>
-            <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mtimer-${s.id}">${fmtTime(s.timeLeft)}</div>
-          </div>
-        </div>
-        <div class="top-bidder">En yüksek: <span id="mbidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
-        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Piyasa: ${s.priceRaw} · Hacim: ${s.volume}</div>
-        ${!ended?`
-        <div class="bid-row">
-          <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
-          <button class="bid-btn" onclick="event.stopPropagation();placeBid('${s.id}')">TEKLİF</button>
-        </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function appendMarketCard(s) {
-  const grid = document.getElementById('market-grid');
-  // Remove loading spinner if present
+function appendCard(s) {
+  const grid = $('marketGrid');
   const loader = grid.querySelector('.loading');
   if(loader) loader.remove();
-  // Only show if matches current cat
-  if(currentMarketCat !== 'Tümü' && s.cat !== currentMarketCat) return;
+  if(activeCat !== 'Tümü' && s.cat !== activeCat) return;
+
   const div = document.createElement('div');
-  div.className = 'skin-card' + (s.topBidder==='Sen' ? ' my-bid' : '');
-  div.id = 'card-' + s.id;
-  div.style.cursor = 'pointer';
-  div.innerHTML = getCardHTML(s);
-  div.setAttribute('data-skin-idx', marketSkins.indexOf(s));
-  div.addEventListener('click', function(e) {
-    if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-input')) return;
-    openDetailModal(marketSkins.indexOf(s));
+  div.className = 'skin-card' + (s.topBidder==='Sen'?' winning':'');
+  div.dataset.idx = s.idx;
+
+  // Click opens detail — but not on bid button/input
+  div.addEventListener('click', e => {
+    if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-inp')) return;
+    openDet(s.idx);
   });
+
+  div.innerHTML = cardHTML(s);
   grid.appendChild(div);
 }
 
-function getCardHTML(s) {
-  const ended=s.timeLeft<=0, ending=s.timeLeft>0&&s.timeLeft<600;
-  const isMine=s.topBidder==='Sen';
-  return `<div class="rarity-line" style="background:${s.rarity}"></div>
-    <div class="skin-img-wrap"><img src="${s.img}" onerror="this.style.opacity='0.2'" alt="${s.name}" loading="lazy"></div>
-    <div class="skin-body">
-      <div class="skin-name" title="${s.name}">${s.name.replace(/\s*\(.*?\)\s*/,'')}</div>
-      <div class="skin-wear">${s.cat} · ${s.wear}</div>
-      <div class="skin-meta">
-        <div class="price-block">
-          <div class="plabel">En Yüksek Teklif</div>
-          <div class="amount${isMine?' green':''}" id="mamt-${s.id}">${fmtMoney(s.currentBid)}</div>
+function cardHTML(s) {
+  const ended = s.timeLeft <= 0;
+  const warn = s.timeLeft > 0 && s.timeLeft < 600;
+  const mine = s.topBidder === 'Sen';
+  return `
+    <div class="rarity-stripe" style="background:${s.rarity}"></div>
+    <div class="card-img"><img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='.15'" loading="lazy"></div>
+    <div class="card-body">
+      <div class="card-name" title="${s.name}">${s.name.replace(/\s*\(.*?\)\s*/,'')}</div>
+      <div class="card-wear">${s.cat} · ${s.wear}</div>
+      <div class="card-meta">
+        <div class="bid-block">
+          <div class="lbl">En Yüksek Teklif</div>
+          <div class="amt${mine?' mine':''}" id="amt-${s.idx}">${fmt$(s.currentBid)}</div>
         </div>
-        <div class="timer-block">
-          <div class="plabel">Kalan</div>
-          <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mtimer-${s.id}">${fmtTime(s.timeLeft)}</div>
+        <div class="time-block">
+          <div class="lbl">Kalan</div>
+          <div class="timer${warn?' warn':''}${ended?' done':''}" id="tmr-${s.idx}">${fmtTime(s.timeLeft)}</div>
         </div>
       </div>
-      <div class="top-bidder">En yüksek: <span id="mbidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">Piyasa: ${s.priceRaw} · Hacim: ${s.volume}</div>
-      ${!ended?`
-      <div class="bid-row">
-        <input class="bid-input" id="minp-${s.id}" type="number" step="0.01" placeholder="${fmtMoney(s.currentBid+1)}">
-        <button class="bid-btn" onclick="event.stopPropagation();placeBid('${s.id}')">TEKLİF</button>
-      </div>`:`<div style="text-align:center;font-size:11px;color:var(--text3);padding:6px 0">Sona erdi</div>`}
+      <div class="top-bidder">En yüksek: <span id="bdr-${s.idx}">${s.topBidder||'Henüz yok'}</span></div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px;">Piyasa: ${s.priceRaw} · Hacim: ${s.volume}</div>
+      ${!ended
+        ? `<div class="bid-row">
+            <input class="bid-inp" id="inp-${s.idx}" type="number" step="0.01" placeholder="${fmt$(s.currentBid+1)}">
+            <button class="bid-btn" onclick="quickBid(${s.idx})">TEKLİF</button>
+          </div>`
+        : `<div class="ended-msg">Açık artırma sona erdi</div>`}
     </div>`;
 }
 
-
-function updateStats() {
-  document.getElementById('s-active').textContent = marketSkins.filter(s=>s.timeLeft>0).length;
-  const maxPrice = Math.max(...marketSkins.map(s=>s.price), 0);
-  document.getElementById('s-top').textContent = fmtMoney(maxPrice);
-}
-
-function placeBid(id) {
-  const skin = marketSkins.find(s=>String(s.id)===String(id));
-  if(!skin||skin.timeLeft<=0) return;
-  const inp=document.getElementById('minp-'+id);
-  const val=parseFloat(inp.value);
-  if(!val||val<=skin.currentBid){showToast('Mevcut tekliften yüksek olmalı!','error');return;}
-  if(val>userBalance){showToast('Yetersiz bakiye!','error');return;}
+function quickBid(idx) {
+  const s = marketSkins[idx];
+  if(!s || s.timeLeft <= 0) return;
+  const inp = $('inp-' + idx);
+  const val = parseFloat(inp.value);
+  if(!val || val <= s.currentBid) { toast('Mevcut tekliften yüksek olmalı!','err'); return; }
+  if(val > userBalance) { toast('Yetersiz bakiye!','err'); return; }
   userBalance -= val;
   updateBalance();
-  skin.currentBid=val; skin.topBidder='Sen'; inp.value='';
-  if(!skin.bidHistory) skin.bidHistory=[];
-  skin.bidHistory.push({user:'Sen',amount:val,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
-  totalBids++;
-  document.getElementById('s-bids').textContent=totalBids;
-  const a=document.getElementById('mamt-'+id), b=document.getElementById('mbidder-'+id);
-  if(a){a.textContent=fmtMoney(val);a.className='amount green';}
+  s.currentBid = val; s.topBidder = 'Sen';
+  s.bidHistory.push({user:'Sen', amount:val, time:now()});
+  inp.value = '';
+  totalBids++; $('sBids').textContent = totalBids;
+  const a = $('amt-'+idx), b = $('bdr-'+idx);
+  if(a){a.textContent=fmt$(val);a.className='amt mine';}
   if(b) b.textContent='Sen';
-  showToast(skin.name+' için '+fmtMoney(val)+' teklif verildi!','success');
+  const card = document.querySelector(`[data-idx="${idx}"]`);
+  if(card) card.classList.add('winning');
+  toast(s.name+' için '+fmt$(val)+' teklif verildi!','ok');
 }
 
-// ===== INVENTORY =====
+function updateMarketStats() {
+  $('sActive').textContent = marketSkins.filter(s=>s.timeLeft>0).length;
+  const top = Math.max(0,...marketSkins.map(s=>s.price));
+  $('sTop').textContent = fmt$(top);
+}
+
+function now() { return new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}); }
+
+// ═══════════════════════════════════════════
+// DETAIL MODAL
+// ═══════════════════════════════════════════
+function openDet(idx) {
+  const s = marketSkins[idx];
+  if(!s) return;
+  detSkin = s;
+  if(!s._float) s._float = getFloat(s.wear);
+
+  $('detName').textContent = s.name;
+  $('detImg').src = s.img || '';
+  $('detRarity').style.background = s.rarity;
+  $('detFloat').textContent = s._float;
+  $('detMarket').textContent = s.priceRaw;
+  $('detFloatMark').style.left = (parseFloat(s._float)*100)+'%';
+  refreshDetBid();
+
+  const ended = s.timeLeft <= 0;
+  $('detBidBtn').disabled = ended;
+  $('detBidSection').style.opacity = ended?'0.4':'1';
+  $('detBidInp').placeholder = fmt$(s.currentBid+1);
+
+  $('detailOverlay').classList.add('open');
+  clearInterval(detTimerInt);
+  detTimerInt = setInterval(() => { if(detSkin) { $('detTimer').textContent = fmtTime(detSkin.timeLeft); refreshDetBid(); } }, 1000);
+}
+function refreshDetBid() {
+  if(!detSkin) return;
+  $('detTimer').textContent = fmtTime(detSkin.timeLeft);
+  $('detBid').textContent = fmt$(detSkin.currentBid);
+  $('detBidder').textContent = detSkin.topBidder ? '👑 '+detSkin.topBidder : 'Henüz teklif yok';
+  $('detBidCount').textContent = detSkin.bidHistory.length;
+  const hist = detSkin.bidHistory;
+  $('detHistory').innerHTML = hist.length === 0
+    ? '<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px;">Henüz teklif yok</div>'
+    : [...hist].reverse().map(b => `
+      <div class="bid-entry">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:${b.user==='Sen'?'var(--green)':'var(--blue)'}"></div>
+          <span style="font-size:12px;color:${b.user==='Sen'?'var(--green)':'var(--blue)'}">${b.user}</span>
+        </div>
+        <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;">${fmt$(b.amount)}</div>
+        <div style="font-size:10px;color:var(--text3);">${b.time}</div>
+      </div>`).join('');
+}
+function closeDet() {
+  $('detailOverlay').classList.remove('open');
+  clearInterval(detTimerInt);
+  detSkin = null;
+}
+function submitDetailBid() {
+  if(!detSkin || detSkin.timeLeft<=0) return;
+  const val = parseFloat($('detBidInp').value);
+  if(!val || val <= detSkin.currentBid) { toast('Mevcut tekliften yüksek olmalı!','err'); return; }
+  if(val > userBalance) { toast('Yetersiz bakiye!','err'); return; }
+  userBalance -= val;
+  updateBalance();
+  detSkin.currentBid = val; detSkin.topBidder = 'Sen';
+  detSkin.bidHistory.push({user:'Sen', amount:val, time:now()});
+  $('detBidInp').value = '';
+  totalBids++; $('sBids').textContent = totalBids;
+  const a=$('amt-'+detSkin.idx), b=$('bdr-'+detSkin.idx);
+  if(a){a.textContent=fmt$(val);a.className='amt mine';}
+  if(b) b.textContent='Sen';
+  const card = document.querySelector(`[data-idx="${detSkin.idx}"]`);
+  if(card) card.classList.add('winning');
+  refreshDetBid();
+  toast(detSkin.name+' için '+fmt$(val)+' teklif verildi!','ok');
+}
+
+// ═══════════════════════════════════════════
+// INVENTORY
+// ═══════════════════════════════════════════
 async function loadInventory(steamId) {
   try {
     const r = await fetch(`${API}/api/inventory/${steamId}`);
     const inv = await r.json();
-
-    if(!inv||!inv.assets||!inv.descriptions) { inventorySkins=[]; renderInventory(); return; }
-
-    inventorySkins = [];
+    if(!inv?.assets || !inv?.descriptions) { invSkins=[]; renderInventory(); return; }
+    invSkins = [];
     inv.assets.forEach(asset => {
-      const desc = inv.descriptions.find(d=>d.classid===asset.classid&&d.instanceid===asset.instanceid);
-      if(!desc||!desc.tags) return;
-      const weaponTag=desc.tags.find(t=>t.category==='Weapon');
-      const rarityTag=desc.tags.find(t=>t.category==='Rarity');
-      const wearTag=desc.tags.find(t=>t.category==='Exterior');
-      if(!weaponTag) return;
-
-      const catMap = {'Knife':'Bıçaklar','Gloves':'Eldivenler','Rifle':'Tüfekler','Pistol':'Tabancalar','SMG':'SMG','Sniper Rifle':'Tüfekler','Shotgun':'Diğer','Machine Gun':'Diğer'};
-      const wType = weaponTag.internal_name?.replace('CSGO_Type_','') || 'Diğer';
-      const cat = catMap[wType] || 'Diğer';
-
-      inventorySkins.push({
+      const desc = inv.descriptions.find(d => d.classid===asset.classid && d.instanceid===asset.instanceid);
+      if(!desc?.tags) return;
+      const wTag = desc.tags.find(t=>t.category==='Weapon');
+      const rTag = desc.tags.find(t=>t.category==='Rarity');
+      const eTag = desc.tags.find(t=>t.category==='Exterior');
+      if(!wTag) return;
+      const catMap = {'Knife':'Bıçaklar','Gloves':'Eldivenler','Rifle':'Tüfekler','Pistol':'Tabancalar','SMG':'SMG','Sniper Rifle':'Tüfekler','Shotgun':'Diğer'};
+      const wType = wTag.internal_name?.replace('CSGO_Type_','') || 'Diğer';
+      invSkins.push({
         id: asset.assetid,
         name: desc.market_hash_name,
-        wear: wearTag?.localized_tag_name || '',
-        rarity: rarityColor(rarityTag?.localized_tag_name),
-        rarityName: rarityTag?.localized_tag_name || '',
-        cat,
-        img: `https://community.fastly.steamstatic.com/economy/image/${desc.icon_url}/200fx200f`,
-        market: 0,
-        listed: false
+        wear: eTag?.localized_tag_name || '',
+        rarity: RARITY[catMap[wType]] || '#5e98d9',
+        rarityName: rTag?.localized_tag_name || '',
+        cat: catMap[wType] || 'Diğer',
+        img: `https://community.fastly.steamstatic.com/economy/image/${desc.icon_url}/360fx360f`,
+        market: 0, listed: false
       });
     });
     renderInventory();
-    // Fetch prices for first 20 items
     fetchInvPrices();
-  } catch(e) {
-    inventorySkins = [];
-    renderInventory();
-    showToast('Envanter yüklenemedi. Lütfen envanterinizin herkese açık olduğundan emin olun.','error');
-  }
+  } catch(e) { invSkins=[]; renderInventory(); toast('Envanter yüklenemedi','err'); }
 }
 
 async function fetchInvPrices() {
-  for(let i=0; i<Math.min(20, inventorySkins.length); i++) {
-    const s = inventorySkins[i];
+  for(let i=0; i<Math.min(20,invSkins.length); i++) {
+    const s = invSkins[i];
     try {
-      const url = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(s.name)}`;
-      const r = await fetch(PROXY + encodeURIComponent(url));
-      const data = await r.json();
-      s.market = data.lowest_price ? parseFloat(data.lowest_price.replace(/[^0-9.]/g,'')) : 0;
+      const r = await fetch(`${API}/api/market?name=${encodeURIComponent(s.name)}`);
+      const d = await r.json();
+      s.market = d.price ? parseFloat(d.price.replace(/[^0-9.]/g,'')) : 0;
       renderInventory();
-      await new Promise(r=>setTimeout(r,300));
-    } catch(e) {}
+      await new Promise(r=>setTimeout(r,350));
+    } catch(e){}
   }
 }
 
 function renderInventory() {
-  // Profile
-  const pa = document.getElementById('profile-area');
-  if(steamProfile) {
-    pa.innerHTML = `<div class="profile-card">
-      ${steamProfile.avatar?`<img class="profile-avatar-lg" src="${steamProfile.avatar}" alt="">`:'<div class="profile-avatar-lg" style="background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:28px;border-radius:12px;">👤</div>'}
-      <div class="profile-info">
-        <div class="pname">${steamProfile.name}</div>
-        <div class="pid">Steam ID: ${steamProfile.id}</div>
-        <div class="pstatus"><div class="status-dot"></div>Çevrimiçi</div>
-      </div>
-    </div>`;
+  if(profile) {
+    $('profileArea').innerHTML = `
+      <div class="profile-card">
+        ${profile.avatar?`<img class="prof-avatar" src="${profile.avatar}" alt="">`:'<div class="prof-avatar" style="background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:28px;border-radius:12px;">👤</div>'}
+        <div>
+          <div class="prof-name">${profile.name}</div>
+          <div class="prof-id">Steam ID: ${profile.steamid}</div>
+          <div class="prof-status"><div class="dot"></div>Çevrimiçi</div>
+        </div>
+      </div>`;
   }
-
-  // Cats
-  const cats = ['Tümü', ...new Set(inventorySkins.map(s=>s.cat).filter(Boolean))];
-  document.getElementById('inv-cats').innerHTML = cats.map(c=>
-    `<div class="cat-tab${c===currentInvCat?' active':''}" onclick="setInvCat('${c}',this)">${c}</div>`
+  const cats = ['Tümü',...new Set(invSkins.map(s=>s.cat).filter(Boolean))];
+  $('invCats').innerHTML = cats.map(c =>
+    `<div class="cat-tab${c===invCat?' on':''}" onclick="setInvCat('${c}',this)">${c}</div>`
   ).join('');
-
-  const filtered = currentInvCat==='Tümü' ? inventorySkins : inventorySkins.filter(s=>s.cat===currentInvCat);
-  document.getElementById('inv-count').textContent = inventorySkins.length + ' item';
-
-  const grid = document.getElementById('inventory-grid');
-  if(inventorySkins.length===0) {
-    grid.innerHTML='<div class="empty-state"><div class="icon">🎒</div><div>Envanter boş veya gizli</div></div>';
+  $('invCount').textContent = invSkins.length + ' item';
+  const filtered = invCat==='Tümü' ? invSkins : invSkins.filter(s=>s.cat===invCat);
+  if(filtered.length===0) {
+    $('invGrid').innerHTML = '<div class="empty"><div class="ei">🎒</div><div>Envanter boş veya gizli</div></div>';
     return;
   }
-  grid.innerHTML = filtered.map(s=>`
+  $('invGrid').innerHTML = filtered.map(s=>`
     <div class="inv-card">
-      <div class="rarity-line" style="background:${s.rarity}"></div>
-      <div class="skin-img-wrap">
-        <img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='0.3'">
-      </div>
+      <div class="rarity-stripe" style="background:${s.rarity}"></div>
+      <div class="card-img"><img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='.15'" loading="lazy"></div>
       <div class="inv-body">
         <div class="inv-name" title="${s.name}">${s.name}</div>
         <div class="inv-wear">${s.rarityName}${s.wear?' · '+s.wear:''}</div>
-        <div class="inv-price">${s.market>0?fmtMoney(s.market):'Fiyat yükleniyor...'}</div>
+        <div class="inv-price">${s.market>0?fmt$(s.market):'Fiyat yükleniyor...'}</div>
         ${s.listed
-          ?'<div class="listed-chip">ARTIRMADA ✓</div>'
-          :`<button class="list-btn" onclick="openListModal('${s.id}')">AÇIK ARTIRMAYA ÇIKAR</button>`}
+          ? '<div class="listed-tag">ARTIRMADA ✓</div>'
+          : `<button class="list-btn" onclick="openList('${s.id}')">AÇIK ARTIRMAYA ÇIKAR</button>`}
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
-
 function setInvCat(cat, el) {
-  currentInvCat = cat;
-  document.querySelectorAll('#inv-cats .cat-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
+  invCat = cat;
+  document.querySelectorAll('#invCats .cat-tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
   renderInventory();
 }
 
-// ===== LIST MODAL =====
-function openListModal(itemId) {
-  const item = inventorySkins.find(s=>String(s.id)===String(itemId));
-  if(!item) return;
-  listingItem = item;
-  document.getElementById('lm-img').src = item.img;
-  document.getElementById('lm-name').textContent = item.name;
-  document.getElementById('lm-wear').textContent = item.wear;
-  document.getElementById('lm-price').textContent = item.market>0?'Piyasa: '+fmtMoney(item.market):'';
-  document.getElementById('lm-start').value = item.market>0?item.market.toFixed(2):'';
-  document.getElementById('list-modal').classList.add('open');
+// ═══════════════════════════════════════════
+// LIST MODAL
+// ═══════════════════════════════════════════
+function openList(id) {
+  const s = invSkins.find(x=>x.id===id);
+  if(!s) return;
+  listSkin = s;
+  $('listImg').src = s.img;
+  $('listName').textContent = s.name;
+  $('listWear').textContent = s.wear;
+  $('listPrice').textContent = s.market>0?'Piyasa: '+fmt$(s.market):'';
+  $('listStartPrice').value = s.market>0?s.market.toFixed(2):'';
+  $('listOverlay').classList.add('open');
 }
-function closeListModal() { document.getElementById('list-modal').classList.remove('open'); listingItem=null; }
+function closeList() { $('listOverlay').classList.remove('open'); listSkin=null; }
 function confirmList() {
-  if(!listingItem) return;
-  const sp=parseFloat(document.getElementById('lm-start').value);
-  const dur=parseInt(document.getElementById('lm-dur').value);
-  if(!sp||sp<=0){showToast('Geçerli fiyat girin!','error');return;}
-  if(!dur||dur<1){showToast('Geçerli süre girin!','error');return;}
-  myAuctions.push({...listingItem, startPrice:sp, currentBid:sp, topBidder:null, timeLeft:dur*3600, id:'my-'+Date.now()});
-  listingItem.listed=true;
-  closeListModal();
+  if(!listSkin) return;
+  const sp = parseFloat($('listStartPrice').value);
+  const dur = parseInt($('listDuration').value);
+  if(!sp||sp<=0) { toast('Geçerli fiyat girin!','err'); return; }
+  if(!dur||dur<1) { toast('Geçerli süre girin!','err'); return; }
+  myAuctions.push({...listSkin, startPrice:sp, currentBid:sp, topBidder:null, timeLeft:dur*3600, bidHistory:[], id2:'my-'+Date.now()});
+  listSkin.listed = true;
+  closeList();
   renderInventory();
   renderMyAuctions();
-  showToast(listingItem.name+' açık artırmaya çıkarıldı!','success');
+  toast(listSkin.name+' açık artırmaya çıkarıldı!','ok');
 }
 
-// ===== MY AUCTIONS =====
+// ═══════════════════════════════════════════
+// MY AUCTIONS
+// ═══════════════════════════════════════════
 function renderMyAuctions() {
-  const el=document.getElementById('my-auctions-content');
-  if(myAuctions.length===0){el.innerHTML='<div class="empty-state"><div class="icon">🎯</div><div>Henüz açık artırman yok</div></div>';return;}
-  el.innerHTML='<div class="skin-grid">'+myAuctions.map(s=>{
-    const ended=s.timeLeft<=0,ending=s.timeLeft>0&&s.timeLeft<600;
-    return `<div class="skin-card">
-      <div class="rarity-line" style="background:${s.rarity||'#aaa'}"></div>
-      <div class="skin-img-wrap"><img src="${s.img}" alt="${s.name}" onerror="this.style.opacity='0.3'"></div>
-      <div class="skin-body">
-        <div class="skin-name">${s.name}</div>
-        <div class="skin-wear">${s.wear||''}</div>
-        <div class="skin-meta">
-          <div class="price-block">
-            <div class="plabel">Güncel Teklif</div>
-            <div class="amount green" id="myamt-${s.id}">${fmtMoney(s.currentBid)}</div>
-          </div>
-          <div class="timer-block">
-            <div class="plabel">Kalan</div>
-            <div class="timer-chip${ending?' ending':''}${ended?' ended':''}" id="mytimer-${s.id}">${fmtTime(s.timeLeft)}</div>
-          </div>
+  if(myAuctions.length===0) {
+    $('myAuctionsContent').innerHTML = '<div class="empty"><div class="ei">🎯</div><div>Henüz açık artırman yok</div></div>';
+    return;
+  }
+  $('myAuctionsContent').innerHTML = '<div class="skin-grid">' + myAuctions.map((s,i)=>`
+    <div class="skin-card">
+      <div class="rarity-stripe" style="background:${s.rarity||'#aaa'}"></div>
+      <div class="card-img"><img src="${s.img||''}" alt="${s.name}" onerror="this.style.opacity='.15'"></div>
+      <div class="card-body">
+        <div class="card-name">${s.name}</div>
+        <div class="card-wear">${s.wear||''}</div>
+        <div class="card-meta">
+          <div class="bid-block"><div class="lbl">Güncel Teklif</div><div class="amt mine" id="myamt-${i}">${fmt$(s.currentBid)}</div></div>
+          <div class="time-block"><div class="lbl">Kalan</div><div class="timer${s.timeLeft<600&&s.timeLeft>0?' warn':''}${s.timeLeft<=0?' done':''}" id="mytmr-${i}">${fmtTime(s.timeLeft)}</div></div>
         </div>
-        <div class="top-bidder">Teklifçi: <span id="mybidder-${s.id}">${s.topBidder||'Henüz yok'}</span></div>
-        <div style="font-size:11px;color:var(--text3)">Başlangıç: ${fmtMoney(s.startPrice)}</div>
+        <div class="top-bidder">Teklifçi: <span id="mybdr-${i}">${s.topBidder||'Henüz yok'}</span></div>
+        <div style="font-size:10px;color:var(--text3)">Başlangıç: ${fmt$(s.startPrice)}</div>
       </div>
-    </div>`;
-  }).join('')+'</div>';
+    </div>`).join('') + '</div>';
 }
 
-// ===== PAY MODAL =====
-function openPayModal(id) {
-  const s=marketSkins.find(x=>String(x.id)===String(id));
+// ═══════════════════════════════════════════
+// PAY MODAL
+// ═══════════════════════════════════════════
+function openPay(idx) {
+  const s = marketSkins[idx];
   if(!s) return;
-  payItem=s;
-  document.getElementById('pm-img').src=s.img||'';
-  document.getElementById('pm-name').textContent=s.name;
-  document.getElementById('pm-wear').textContent=s.wear;
-  document.getElementById('pm-amt').textContent=fmtMoney(s.currentBid);
-  document.getElementById('pay-modal').classList.add('open');
+  paySkin = s;
+  $('payImg').src = s.img||'';
+  $('payName').textContent = s.name;
+  $('payWear').textContent = s.wear;
+  $('payAmt').textContent = fmt$(s.currentBid);
+  $('payOverlay').classList.add('open');
 }
-function closePayModal(){document.getElementById('pay-modal').classList.remove('open');payItem=null;}
-function confirmPay(){
-  const n=document.getElementById('pm-name-inp').value.trim();
-  const c=document.getElementById('pm-card').value.trim();
-  const e=document.getElementById('pm-exp').value.trim();
-  const v=document.getElementById('pm-cvv').value.trim();
-  if(!n||!c||!e||!v){showToast('Tüm alanları doldurun!','error');return;}
-  closePayModal();
-  showToast('✅ Ödeme başarılı! (Demo)','success');
+function closePay() { $('payOverlay').classList.remove('open'); paySkin=null; }
+function confirmPay() {
+  if(!$('payCardName').value||!$('payCardNum').value||!$('payExp').value||!$('payCvv').value) {
+    toast('Tüm alanları doldurun!','err'); return;
+  }
+  closePay();
+  toast('✅ Ödeme başarılı! (Demo)','ok');
 }
-function fmtCard(inp){let v=inp.value.replace(/\D/g,'').substring(0,16);inp.value=v.replace(/(\d{4})/g,'$1 ').trim();}
-function fmtExp(inp){let v=inp.value.replace(/\D/g,'').substring(0,4);if(v.length>2)v=v.substring(0,2)+'/'+v.substring(2);inp.value=v;}
+function fmtCardNum(inp) { let v=inp.value.replace(/\D/g,'').substring(0,16); inp.value=v.replace(/(\d{4})/g,'$1 ').trim(); }
+function fmtExpiry(inp) { let v=inp.value.replace(/\D/g,'').substring(0,4); if(v.length>2) v=v.substring(0,2)+'/'+v.substring(2); inp.value=v; }
 
-// ===== TIMERS =====
-const BOTS=['xSniper99','ProPlayer','SkinHunter','CsKing','TradeGod','VaultBot'];
-setInterval(()=>{
-  marketSkins.forEach(s=>{
-    if(s.timeLeft>0){
-      s.timeLeft--;
-      if(Math.random()<0.025&&s.topBidder!=='Sen'&&s.timeLeft>30){
-        s.currentBid=parseFloat((s.currentBid+Math.random()*s.currentBid*0.03+0.5).toFixed(2));
-        s.topBidder=BOTS[Math.floor(Math.random()*BOTS.length)];
-        if(!s.bidHistory) s.bidHistory=[];
-        s.bidHistory.push({user:s.topBidder,amount:s.currentBid,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
-        const a=document.getElementById('mamt-'+s.id),b=document.getElementById('mbidder-'+s.id);
-        if(a)a.textContent=fmtMoney(s.currentBid);
-        if(b)b.textContent=s.topBidder;
-      }
-      const t=document.getElementById('mtimer-'+s.id);
-      if(t){t.textContent=fmtTime(s.timeLeft);t.className='timer-chip'+(s.timeLeft<=0?' ended':s.timeLeft<600?' ending':'');}
+// ═══════════════════════════════════════════
+// TIMERS & BOTS
+// ═══════════════════════════════════════════
+setInterval(() => {
+  marketSkins.forEach(s => {
+    if(s.timeLeft <= 0) return;
+    s.timeLeft--;
+    // Bot bid
+    if(Math.random()<0.025 && s.topBidder!=='Sen' && s.timeLeft>30) {
+      s.currentBid = parseFloat((s.currentBid + Math.random()*s.currentBid*0.03 + 0.5).toFixed(2));
+      s.topBidder = BOTS[Math.floor(Math.random()*BOTS.length)];
+      s.bidHistory.push({user:s.topBidder, amount:s.currentBid, time:now()});
+      const a=$('amt-'+s.idx), b=$('bdr-'+s.idx);
+      if(a) a.textContent = fmt$(s.currentBid);
+      if(b) b.textContent = s.topBidder;
+    }
+    // Update timer on card
+    const t = $('tmr-'+s.idx);
+    if(t) {
+      t.textContent = fmtTime(s.timeLeft);
+      t.className = 'timer' + (s.timeLeft<=0?' done':s.timeLeft<600?' warn':'');
     }
   });
-  myAuctions.forEach(s=>{
-    if(s.timeLeft>0){
-      s.timeLeft--;
-      if(Math.random()<0.04&&s.timeLeft>30){
-        s.currentBid=parseFloat((s.currentBid+Math.random()*5+0.5).toFixed(2));
-        s.topBidder=BOTS[Math.floor(Math.random()*BOTS.length)];
-        const a=document.getElementById('myamt-'+s.id),b=document.getElementById('mybidder-'+s.id);
-        if(a)a.textContent=fmtMoney(s.currentBid);
-        if(b)b.textContent=s.topBidder;
-      }
-      const t=document.getElementById('mytimer-'+s.id);
-      if(t){t.textContent=fmtTime(s.timeLeft);t.className='timer-chip'+(s.timeLeft<=0?' ended':s.timeLeft<600?' ending':'');}
+
+  myAuctions.forEach((s,i) => {
+    if(s.timeLeft <= 0) return;
+    s.timeLeft--;
+    if(Math.random()<0.04 && s.timeLeft>30) {
+      s.currentBid = parseFloat((s.currentBid + Math.random()*5 + 0.5).toFixed(2));
+      s.topBidder = BOTS[Math.floor(Math.random()*BOTS.length)];
+      const a=$('myamt-'+i), b=$('mybdr-'+i);
+      if(a) a.textContent = fmt$(s.currentBid);
+      if(b) b.textContent = s.topBidder;
     }
+    const t=$('mytmr-'+i);
+    if(t){t.textContent=fmtTime(s.timeLeft);t.className='timer'+(s.timeLeft<=0?' done':s.timeLeft<600?' warn':'');}
   });
-},1000);
-
-let detailSkin = null;
-let detailTimerInterval = null;
-
-function getFloat(wear) {
-  const ranges = {
-    'Factory New': [0.00, 0.07],
-    'Minimal Wear': [0.07, 0.15],
-    'Field-Tested': [0.15, 0.38],
-    'Well-Worn': [0.38, 0.45],
-    'Battle-Scarred': [0.45, 1.00]
-  };
-  const key = Object.keys(ranges).find(k => wear && wear.includes(k.split(' ')[0])) || 'Field-Tested';
-  const [min, max] = ranges[key] || [0.15, 0.38];
-  return (Math.random() * (max - min) + min).toFixed(8);
-}
-
-function openDetailModal(idx) {
-  const skin = typeof idx === 'number' ? marketSkins[idx] : 
-               marketSkins.find(s=>String(s.id)===String(idx)) ||
-               myAuctions.find(s=>String(s.id)===String(idx));
-  if(!skin) return;
-  detailSkin = skin;
-
-  document.getElementById('dm-name').textContent = skin.name;
-  document.getElementById('dm-img').src = skin.img || '';
-  document.getElementById('dm-wear-badge').textContent = (skin.rarityName||skin.cat||'') + (skin.wear ? ' · ' + skin.wear : '');
-  document.getElementById('dm-rarity-bar').style.background = skin.rarity || '#aaa';
-  document.getElementById('dm-market').textContent = skin.priceRaw || (skin.market>0 ? fmtMoney(skin.market) : 'N/A');
-  document.getElementById('dm-current-bid').textContent = fmtMoney(skin.currentBid);
-  document.getElementById('dm-top-bidder').textContent = skin.topBidder ? '👑 ' + skin.topBidder : 'Henüz teklif yok';
-  document.getElementById('dm-bid-count').textContent = (skin.bidHistory||[]).length;
-
-  // Float
-  if(!skin._float) skin._float = getFloat(skin.wear);
-  const floatVal = skin._float;
-  document.getElementById('dm-float').textContent = floatVal;
-  document.getElementById('dm-float-marker').style.left = (parseFloat(floatVal) * 100) + '%';
-
-  // Timer
-  document.getElementById('dm-timer').textContent = fmtTime(skin.timeLeft);
-
-  // Bid history
-  renderBidHistory(skin);
-
-  // Bid section
-  const ended = skin.timeLeft <= 0;
-  document.getElementById('dm-bid-section').style.opacity = ended ? '0.4' : '1';
-  document.getElementById('dm-bid-btn').disabled = ended;
-  document.getElementById('dm-bid-inp').placeholder = fmtMoney(skin.currentBid + 1);
-
-  document.getElementById('detail-modal').classList.add('open');
-
-  // Live timer in modal
-  clearInterval(detailTimerInterval);
-  detailTimerInterval = setInterval(() => {
-    if(detailSkin) {
-      document.getElementById('dm-timer').textContent = fmtTime(detailSkin.timeLeft);
-      document.getElementById('dm-current-bid').textContent = fmtMoney(detailSkin.currentBid);
-      document.getElementById('dm-top-bidder').textContent = detailSkin.topBidder ? '👑 ' + detailSkin.topBidder : 'Henüz teklif yok';
-    }
-  }, 1000);
-}
-
-function renderBidHistory(skin) {
-  const el = document.getElementById('dm-bid-history');
-  const history = skin.bidHistory || [];
-  if(history.length === 0) {
-    el.innerHTML = '<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px;">Henüz teklif yok</div>';
-    return;
-  }
-  el.innerHTML = [...history].reverse().map(b => `
-    <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border-radius:8px;padding:8px 12px;border:1px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="width:6px;height:6px;border-radius:50%;background:${b.user==='Sen'?'var(--green)':'var(--blue)'};"></div>
-        <span style="font-size:12px;color:${b.user==='Sen'?'var(--green)':'var(--blue)'};">${b.user}</span>
-      </div>
-      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--text);">${fmtMoney(b.amount)}</div>
-      <div style="font-size:10px;color:var(--text3);">${b.time}</div>
-    </div>
-  `).join('');
-}
-
-function closeDetailModal() {
-  document.getElementById('detail-modal').classList.remove('open');
-  clearInterval(detailTimerInterval);
-  setTimeout(() => { detailSkin = null; }, 300);
-}
-
-function placeDetailBid() {
-  if(!detailSkin || detailSkin.timeLeft <= 0) return;
-  const inp = document.getElementById('dm-bid-inp');
-  const val = parseFloat(inp.value);
-  if(!val || val <= detailSkin.currentBid) {
-    showToast('Mevcut tekliften yüksek olmalı!', 'error');
-    return;
-  }
-  if(val > userBalance) {
-    showToast('Yetersiz bakiye!', 'error');
-    return;
-  }
-
-  // Deduct from balance immediately
-  userBalance -= val;
-  updateBalance();
-
-  // Update skin
-  detailSkin.currentBid = val;
-  detailSkin.topBidder = 'Sen';
-  if(!detailSkin.bidHistory) detailSkin.bidHistory = [];
-  detailSkin.bidHistory.push({
-    user: 'Sen',
-    amount: val,
-    time: new Date().toLocaleTimeString('tr-TR', {hour:'2-digit',minute:'2-digit'})
-  });
-
-  inp.value = '';
-  totalBids++;
-  document.getElementById('s-bids').textContent = totalBids;
-
-  // Update modal
-  document.getElementById('dm-current-bid').textContent = fmtMoney(val);
-  document.getElementById('dm-top-bidder').textContent = '👑 Sen';
-  document.getElementById('dm-bid-count').textContent = detailSkin.bidHistory.length;
-  renderBidHistory(detailSkin);
-  document.getElementById('dm-bid-inp').placeholder = fmtMoney(val + 1);
-
-  // Update market grid card
-  const a = document.getElementById('mamt-'+detailSkin.id);
-  const b = document.getElementById('mbidder-'+detailSkin.id);
-  if(a){a.textContent=fmtMoney(val);a.className='amount green';}
-  if(b) b.textContent='Sen';
-
-  showToast(detailSkin.name+' için '+fmtMoney(val)+' teklif verildi! Bakiyenizden düşüldü.','success');
-}
-
+}, 1000);
 </script>
 </body>
 </html>
