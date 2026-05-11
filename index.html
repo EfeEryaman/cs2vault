@@ -689,10 +689,11 @@ function appendMarketCard(s) {
   div.id = 'card-' + s.id;
   div.style.cursor = 'pointer';
   div.innerHTML = getCardHTML(s);
-  const skinId = String(s.id);
+  const skinIdx = marketSkins.indexOf(s);
   div.addEventListener('click', function(e) {
     if(e.target.classList.contains('bid-btn') || e.target.classList.contains('bid-input')) return;
-    openDetailModal(skinId);
+    const idx = marketSkins.indexOf(s);
+    if(idx !== -1) openDetailModal(idx);
   });
   grid.appendChild(div);
 }
@@ -738,7 +739,12 @@ function placeBid(id) {
   const inp=document.getElementById('minp-'+id);
   const val=parseFloat(inp.value);
   if(!val||val<=skin.currentBid){showToast('Mevcut tekliften yüksek olmalı!','error');return;}
+  if(val>userBalance){showToast('Yetersiz bakiye!','error');return;}
+  userBalance -= val;
+  document.getElementById('balance-display').textContent = fmtMoney(userBalance);
   skin.currentBid=val; skin.topBidder='Sen'; inp.value='';
+  if(!skin.bidHistory) skin.bidHistory=[];
+  skin.bidHistory.push({user:'Sen',amount:val,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})});
   totalBids++;
   document.getElementById('s-bids').textContent=totalBids;
   const a=document.getElementById('mamt-'+id), b=document.getElementById('mbidder-'+id);
@@ -988,9 +994,10 @@ function getFloat(wear) {
   return (Math.random() * (max - min) + min).toFixed(8);
 }
 
-function openDetailModal(id) {
-  const skin = marketSkins.find(s=>String(s.id)===String(id)) ||
-               myAuctions.find(s=>String(s.id)===String(id));
+function openDetailModal(idx) {
+  const skin = typeof idx === 'number' ? marketSkins[idx] : 
+               marketSkins.find(s=>String(s.id)===String(idx)) ||
+               myAuctions.find(s=>String(s.id)===String(idx));
   if(!skin) return;
   detailSkin = skin;
 
